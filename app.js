@@ -5,6 +5,9 @@ let ctx;
 //for object creation
 let player;
 let manyBunkers = [];
+let numBunkers;
+let manyGunners = [];
+let numGunners;
 
 //for background image scrolling
 let backgroundImage = document.createElement("img");
@@ -16,6 +19,10 @@ let iteration = 0;
 
 //other
 //let ground = game.height * 0.65;
+
+//difficulty variables
+let difficulty = "";
+
 
 //create Balloon
 class Balloon
@@ -88,14 +95,18 @@ class Balloon
 }
 
 //create Bunker
-function Bunker(x, y, rockets)
+function Bunker(x, y, alive)//, rockets)
 {
     this.x = x;
     this.y = y;
-    this.rockets = rockets;     //not essential
+    this.alive = alive;
+    //this.rockets = rockets;     //not essential
     this.render = function()
     {
-
+        ctx.beginPath();
+        ctx.fillStyle = "purple";
+        ctx.arc(this.x, this.y, 10, Math.PI, 0);
+        ctx.fill();
     }
 }
 
@@ -135,6 +146,51 @@ function Ammo(x, y, angle, speed, gravity, shape)
     }
 }
 
+//need to add button click listener
+function checkGameConditions()
+{
+    //MAYBE SWITCH STATEMENT?
+    //if difficulty is easy 
+    if (difficulty === "easy")
+    {
+        //create 3 bunkers
+        numbunkers = 3;
+        //create 15 gunners
+        numGunners = 15;
+        //don't change background speed
+    }
+    //if difficulty is medium
+    if (difficulty === "medium")
+    {
+        //create 5 bunkers
+        numbunkers = 5;
+        //create 30 gunners
+        numGunners = 30;
+        //change background speed to -10
+        scrollBackgroundSpeed = -10;
+    }
+    //if difficulty is hard
+    if (difficulty === "hard")
+    {
+        //create 7 bunkers
+        numbunkers = 7;
+        //create 50 gunners
+        numGunners = 50;
+        //change background speed to -15
+        scrollBackgroundSpeed = -15;
+    }
+    //if difficulty is death
+    if (difficulty === "death")
+    {
+        //create 10 bunkers
+        numbunkers = 10;
+        //create 90 gunners
+        numGunners = 90;
+        //change background speed to -25
+        scrollBackgroundSpeed = -25;
+    }
+}
+
 function loopBackground()
 {
     iteration++;
@@ -151,15 +207,13 @@ function loopBackground()
     {
         backgroundWidth = 0;
     }
-
-    //requestAnimationFrame(loopBackground);
     
 }
 
 function startLoop()
 {
-    console.log(iteration);
-    //setInterval(loopBackground, 1000 + iteration);
+    //console.log(iteration);
+    //run background image animation
     requestAnimationFrame(loopBackground);
 }
 //add gravity
@@ -172,9 +226,8 @@ const playGame = () =>
     console.log("looping yeeet");
     //clear the canvas
     ctx.clearRect(0, 0, game.width, game.height);
-    //ctx.fillStyle = "lightblue";
-    //ctx.fillRect(0, 0, game.width, game.height);
-    //loopBackground();
+    
+    //run background image loop
     startLoop();
 
     //check if the bunker is alive
@@ -203,8 +256,18 @@ document.addEventListener("DOMContentLoaded", function()
     player = new Balloon(20, "circle", 400, 100, 5);
     //create array of gunners
         //create array of ammo for gunners
-    //create array of bunkers
-        //if time allows for it, create array of ammo (rockets) that comes out of bunker occasionally
+    
+    //button click listener?
+    checkGameConditions();
+
+    //create bunkers
+    for (let i = 1; i <= numBunkers; i++)
+    {
+        let bunker = new Bunker()
+        manyBunkers.push
+    }
+    
+    //if time allows for it, create rockets (ammo) that comes out of bunker occasionally
 
 
     //listen for keydown event
