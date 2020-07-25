@@ -1,7 +1,23 @@
+//for game and canvas
 let game;
+let gameBackground;
 let ctx;
-let player;
+let ctxUnder;
 
+//for object creation
+let player;
+let manyBunkers = [];
+
+//for background image scrolling
+let backgroundImage = document.createElement("img");
+backgroundImage.setAttribute("id", "background-img");
+backgroundImage.setAttribute("src", "8bit-background.png");
+backgroundImage.setAttribute("z-index", "-1");
+let backgroundWidth = 0;
+let scrollBackgroundSpeed = 10;
+
+//other
+//let ground = game.height * 0.65;
 
 //create Balloon
 class Balloon
@@ -66,7 +82,7 @@ class Balloon
 
     render()
     {
-        ctx.clearRect(0, 0, game.width, game.height);
+        ctx.beginPath();
         ctx.fillStyle = "purple";
         ctx.arc(this.xPos, this.yPos, this.radius, 2 * Math.PI, 0);
         ctx.fill();
@@ -121,6 +137,25 @@ function Ammo(x, y, angle, speed, gravity, shape)
     }
 }
 
+function loopBackground()
+{
+    //draw current background image
+    ctxUnder.drawImage(backgroundImage, backgroundWidth, 0);
+    //draw queued background image
+    ctxUnder.drawImage(backgroundImage, backgroundWidth - game.width, 0);
+
+    //update backgroundImage scroll point
+    backgroundWidth += scrollBackgroundSpeed;
+
+    //reset background image to initial state aafter complete scrolling of image 1
+    if (backgroundWidth === game.width)
+    {
+        backgroundWidth = 0;
+    }
+
+    window.requestAnimationFrame(loopBackground);
+    
+}
 //add gravity
 
 //global movement (not balloon)
@@ -131,8 +166,9 @@ const playGame = () =>
     console.log("looping yeeet");
     //clear the canvas
     ctx.clearRect(0, 0, game.width, game.height);
-    //ctx.fillStyle = "rgba(0, 0, 0, 0)";
+    //ctx.fillStyle = "lightblue";
     //ctx.fillRect(0, 0, game.width, game.height);
+    loopBackground();
 
     //check if the bunker is alive
         //if alive, render
@@ -147,9 +183,13 @@ document.addEventListener("DOMContentLoaded", function()
     console.log("DOM Loaded");
 
     //DOM REFERECES
+    gameBackground = document.getElementById("game-background");
     game = document.getElementById("game");
     
     //CANVAS CONFIGS
+    gameBackground.setAttribute("height", 700);
+    gameBackground.setAttribute("width", 1200);
+    ctxUnder = gameBackground.getContext("2d");
     game.setAttribute("height", 700);
     game.setAttribute("width", 1200);
     ctx = game.getContext("2d");
