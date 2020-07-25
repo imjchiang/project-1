@@ -3,15 +3,5 @@ canvas
     /* background-image: url('../img/stone.png'); */
     /* background-repeat: repeat; */
     background-color: #222;
-    position: absolute;
-}
-
-#game
-{
-    z-index: 1;
-}
-
-#game-background
-{
-    z-index: 0;
+    border: 5px solid black;
 }

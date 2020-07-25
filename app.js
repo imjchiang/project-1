@@ -1,8 +1,6 @@
 //for game and canvas
 let game;
-let gameBackground;
 let ctx;
-let ctxUnder;
 
 //for object creation
 let player;
@@ -11,10 +9,10 @@ let manyBunkers = [];
 //for background image scrolling
 let backgroundImage = document.createElement("img");
 backgroundImage.setAttribute("id", "background-img");
-backgroundImage.setAttribute("src", "8bit-background.png");
-backgroundImage.setAttribute("z-index", "-1");
+backgroundImage.setAttribute("src", "8bit-background.jpg");
 let backgroundWidth = 0;
-let scrollBackgroundSpeed = 10;
+let scrollBackgroundSpeed = -5;
+let iteration = 0;
 
 //other
 //let ground = game.height * 0.65;
@@ -139,22 +137,30 @@ function Ammo(x, y, angle, speed, gravity, shape)
 
 function loopBackground()
 {
+    iteration++;
     //draw current background image
-    ctxUnder.drawImage(backgroundImage, backgroundWidth, 0);
+    ctx.drawImage(backgroundImage, backgroundWidth, 0, game.width, game.height);
     //draw queued background image
-    ctxUnder.drawImage(backgroundImage, backgroundWidth - game.width, 0);
+    ctx.drawImage(backgroundImage, backgroundWidth + game.width, 0, game.width, game.height);
 
     //update backgroundImage scroll point
     backgroundWidth += scrollBackgroundSpeed;
 
-    //reset background image to initial state aafter complete scrolling of image 1
-    if (backgroundWidth === game.width)
+    //reset background image to initial state after complete scrolling of image 1
+    if (- backgroundWidth === game.width)
     {
         backgroundWidth = 0;
     }
 
-    window.requestAnimationFrame(loopBackground);
+    //requestAnimationFrame(loopBackground);
     
+}
+
+function startLoop()
+{
+    console.log(iteration);
+    //setInterval(loopBackground, 1000 + iteration);
+    requestAnimationFrame(loopBackground);
 }
 //add gravity
 
@@ -168,7 +174,8 @@ const playGame = () =>
     ctx.clearRect(0, 0, game.width, game.height);
     //ctx.fillStyle = "lightblue";
     //ctx.fillRect(0, 0, game.width, game.height);
-    loopBackground();
+    //loopBackground();
+    startLoop();
 
     //check if the bunker is alive
         //if alive, render
@@ -183,13 +190,9 @@ document.addEventListener("DOMContentLoaded", function()
     console.log("DOM Loaded");
 
     //DOM REFERECES
-    gameBackground = document.getElementById("game-background");
     game = document.getElementById("game");
     
     //CANVAS CONFIGS
-    gameBackground.setAttribute("height", 700);
-    gameBackground.setAttribute("width", 1200);
-    ctxUnder = gameBackground.getContext("2d");
     game.setAttribute("height", 700);
     game.setAttribute("width", 1200);
     ctx = game.getContext("2d");
