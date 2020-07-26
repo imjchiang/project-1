@@ -1,7 +1,17 @@
+h1
+{
+    display: flex;
+    justify-content: center;
+}
+
+main
+{
+    display: flex;
+    justify-content: center;
+}
+
 canvas 
 {
-    /* background-image: url('../img/stone.png'); */
-    /* background-repeat: repeat; */
     border: 5px solid black;
     position: absolute;
 }

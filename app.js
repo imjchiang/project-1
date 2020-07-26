@@ -1,4 +1,4 @@
-//GLOBAL VARIABLE DECLARATIONS ------------------------------------------------
+//GLOBAL VARIABLE DECLARATIONS ---------------------------------------------------------------------------------------
 //canvas settings
 const HEIGHT = 700;
 const WIDTH = 1200;
@@ -42,7 +42,7 @@ let difficulty = "";
 
 
 
-//CLASS AND OBJECT CREATION ---------------------------------------------------
+//CLASS AND OBJECT CREATION ------------------------------------------------------------------------------------------
 //create Balloon
 class Balloon
 {
@@ -196,7 +196,7 @@ function Ammo(x, y, angle, speed, gravity, shape)
 
 
 
-//FUNCTIONS -------------------------------------------------------------------
+//FUNCTIONS ----------------------------------------------------------------------------------------------------------
 //need to add button click listener
 function checkGameConditions()
 {
@@ -295,7 +295,7 @@ const playGame = () =>
 
 
 
-//SET UP AND RUN GAME ---------------------------------------------------------
+//SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function() 
 {
     console.log("DOM Loaded");
@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function()
     //character refs
     //create Player
     //maxBombs depends on difficulty level
-    player = new Balloon(150, 100, 70, 110, 5);
+    player = new Balloon(150, 100, 70, 120, 5);
     //create array of gunners
         //create array of ammo for gunners
     
