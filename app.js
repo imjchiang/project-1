@@ -50,91 +50,70 @@ class Balloon
         this.maxBombs = maxBombs;
         this.velX = 0;
         this.velY = 0;
-        this.velocity = 5;
-
+        this.velocity = 120;
+        this.drag = 0.8;
     }
 
     //movement function of Balloon player
     //need to change out width and height for the circle hitbox
     //need to change out window size
-    move = e =>
+    move()
     {
-        //requestAnimationFrame(this.move);
-        switch (e.key)
+        if (keys[38] || keys[87])
         {
-            case ("w"):
-                if (this.velY > -this.velocity)
-                {
-                    this.velY--;
-                }
-                /*
-                this.yPos -= 5;
-                if (this.yPos - this.radius < 0)
-                {
-                this.yPos = this.radius;
-                }
-                */
-                break;
-            case ("s"):
-                if (this.velY < this.velocity)
-                {
-                    this.velY++;
-                }
-                /*
-                this.yPos += 5;
-                if (this.yPos + this.radius > game.height)
-                {
-                    this.yPos = game.height - this.radius;
-                }
-                */
-                break;
-            case ("a"):
-                if (this.velX > -this.velocity)
-                {
-                    this.velX--;
-                }
-                /*
-                this.xPos -= 5;
-                if (this.xPos - this.radius < 0)
-                {
-                    this.xPos = this.radius;
-                }
-                */
-                break;
-            case ("d"):
-                if (this.velX < this.velocity)
-                {
-                    this.velX++;
-                }
-                /*
-                this.xPos += 5;
-                if (this.xPos + this.radius > game.width)
-                {
-                    this.xPos = game.width - this.radius;
-                }
-                */
-                break;
-            default:
-                console.log("WASD ONLY");
+            if (this.velY > -this.velocity)
+            {
+                this.velY--;
+            }
+        }
+        if (keys[40] || keys[83])
+        {
+            if (this.velY < this.velocity)
+            {
+                this.velY += 3;
+            }
+        }
+        if (keys[37] || keys[65])
+        {
+            if (this.velX > -this.velocity)
+            {
+                this.velX -= 2;
+            }
+        }
+        if (keys[39] || keys[68])
+        {
+            if (this.velX < this.velocity)
+            {
+                this.velX++;
+            }
         }
 
-        if (this.xPos > WIDTH)
+        this.velX *= this.drag;
+        this.velY *= this.drag;
+        this.xPos += this.velX;
+        this.yPos += this.velY;
+
+        //in bounds x axis
+        if (this.xPos > WIDTH - 70)
         {
-            this.xPos = WIDTH;
+            this.xPos = WIDTH - 70;
         }
         else if (this.xPos < 0)
         {
             this.xPos = 0;
         }
 
-        if (this.yPos > HEIGHT)
+        //in bounds y axis
+        if (this.yPos > HEIGHT - 110)
         {
-            this.yPos = HEIGHT;
+            this.yPos = HEIGHT - 110;
         }
-        else if (this.yPose < 0)
+        else if (this.yPos < 0)
         {
             this.yPos = 0;
         }
+
+        //this.render();
     }
     //let player = new Balloon(2020, "Tesla", "Model S", "red");
 
@@ -299,6 +278,7 @@ const playGame = () =>
     
     //render the player
     player.render();
+    player.move();
 }
 
 document.addEventListener("DOMContentLoaded", function() 
@@ -331,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function()
     //character refs
     //create Player
     //maxBombs depends on difficulty level
-    player = new Balloon(20, "circle", 400, 100, 5);
+    player = new Balloon(20, "circle", 150, 100, 5);
     //create array of gunners
         //create array of ammo for gunners
     
@@ -354,3 +334,38 @@ document.addEventListener("DOMContentLoaded", function()
     //RUN GAME
     let runGame = setInterval(playGame, 60);
 })
+
+
+
+
+/*
+switch (e.key)
+        {
+            case ("w"):
+                if (this.velY > -this.velocity)
+                {
+                    this.velY--;
+                }
+                break;
+            case ("s"):
+                if (this.velY < this.velocity)
+                {
+                    this.velY++;
+                }
+                break;
+            case ("a"):
+                if (this.velX > -this.velocity)
+                {
+                    this.velX--;
+                }
+                break;
+            case ("d"):
+                if (this.velX < this.velocity)
+                {
+                    this.velX++;
+                }
+                break;
+            default:
+                console.log("WASD ONLY");
+        }
+*/
