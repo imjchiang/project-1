@@ -1,4 +1,10 @@
 //for game and canvas
+const HEIGHT = 700;
+const WIDTH = 1200;
+
+let gameBackground;
+let ctxBackground;
+
 let game;
 let ctx;
 
@@ -104,8 +110,9 @@ function Bunker(x, y, alive)//, rockets)
     this.render = function()
     {
         ctx.beginPath();
-        ctx.fillStyle = "purple";
+        ctx.fillStyle = "black";
         ctx.arc(this.x, this.y, 10, Math.PI, 0);
+        ctx.closePath();
         ctx.fill();
     }
 }
@@ -151,6 +158,10 @@ function checkGameConditions()
 {
     //MAYBE SWITCH STATEMENT?
     //if difficulty is easy 
+    // switch ()
+    // {
+    //     case ()
+    // }
     if (difficulty === "easy")
     {
         //create 3 bunkers
@@ -195,9 +206,9 @@ function loopBackground()
 {
     iteration++;
     //draw current background image
-    ctx.drawImage(backgroundImage, backgroundWidth, 0, game.width, game.height);
+    ctxBackground.drawImage(backgroundImage, backgroundWidth, 0, WIDTH, HEIGHT);
     //draw queued background image
-    ctx.drawImage(backgroundImage, backgroundWidth + game.width, 0, game.width, game.height);
+    ctxBackground.drawImage(backgroundImage, backgroundWidth + WIDTH, 0, WIDTH, HEIGHT);
 
     //update backgroundImage scroll point
     backgroundWidth += scrollBackgroundSpeed;
@@ -225,7 +236,7 @@ const playGame = () =>
 {
     console.log("looping yeeet");
     //clear the canvas
-    ctx.clearRect(0, 0, game.width, game.height);
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
     
     //run background image loop
     startLoop();
@@ -244,10 +255,16 @@ document.addEventListener("DOMContentLoaded", function()
 
     //DOM REFERECES
     game = document.getElementById("game");
-    
+    gameBackground = document.getElementById("game-background");
+
+    //BACKGROUND CANVAS CONFIGS
+    gameBackground.setAttribute("width", WIDTH);
+    gameBackground.setAttribute("height", HEIGHT);
+    ctxBackground = gameBackground.getContext("2d");
+
     //CANVAS CONFIGS
-    game.setAttribute("height", 700);
-    game.setAttribute("width", 1200);
+    game.setAttribute("width", WIDTH);
+    game.setAttribute("height", HEIGHT);
     ctx = game.getContext("2d");
 
     //character refs
@@ -263,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function()
     //create bunkers
     for (let i = 1; i <= numBunkers; i++)
     {
-        let bunker = new Bunker()
+        //let bunker = new Bunker()
         manyBunkers.push
     }
     
