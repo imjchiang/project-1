@@ -1,10 +1,12 @@
-//for game and canvas
+//canvas settings
 const HEIGHT = 700;
 const WIDTH = 1200;
 
+//background canvas
 let gameBackground;
 let ctxBackground;
 
+//objects canvas
 let game;
 let ctx;
 
@@ -27,6 +29,7 @@ let iteration = 0;
 let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
 balloonImage.setAttribute("src", "8bit-balloon.png");
+let keys = [];
 
 //other
 //let ground = 545 to HEIGHT - 545
@@ -45,6 +48,10 @@ class Balloon
         this.xPos = xPos;
         this.yPos = yPos;
         this.maxBombs = maxBombs;
+        this.velX = 0;
+        this.velY = 0;
+        this.velocity = 5;
+
     }
 
     //movement function of Balloon player
@@ -52,46 +59,81 @@ class Balloon
     //need to change out window size
     move = e =>
     {
+        //requestAnimationFrame(this.move);
         switch (e.key)
         {
             case ("w"):
-                //console.log(this.yPos);
+                if (this.velY > -this.velocity)
+                {
+                    this.velY--;
+                }
+                /*
                 this.yPos -= 5;
                 if (this.yPos - this.radius < 0)
                 {
                 this.yPos = this.radius;
                 }
-                //console.log(this.yPos);
+                */
                 break;
             case ("s"):
-                //console.log(this.yPos);
+                if (this.velY < this.velocity)
+                {
+                    this.velY++;
+                }
+                /*
                 this.yPos += 5;
                 if (this.yPos + this.radius > game.height)
                 {
                     this.yPos = game.height - this.radius;
                 }
-                //console.log(this.yPos);
+                */
                 break;
             case ("a"):
-                //console.log(this.xPos);
+                if (this.velX > -this.velocity)
+                {
+                    this.velX--;
+                }
+                /*
                 this.xPos -= 5;
                 if (this.xPos - this.radius < 0)
                 {
                     this.xPos = this.radius;
                 }
-                //console.log(this.xPos);
+                */
                 break;
             case ("d"):
-                //console.log(this.xPos);
+                if (this.velX < this.velocity)
+                {
+                    this.velX++;
+                }
+                /*
                 this.xPos += 5;
                 if (this.xPos + this.radius > game.width)
                 {
                     this.xPos = game.width - this.radius;
                 }
-                //console.log(this.xPos);
+                */
                 break;
             default:
                 console.log("WASD ONLY");
+        }
+
+        if (this.xPos > WIDTH)
+        {
+            this.xPos = WIDTH;
+        }
+        else if (this.xPos < 0)
+        {
+            this.xPos = 0;
+        }
+
+        if (this.yPos > HEIGHT)
+        {
+            this.yPos = HEIGHT;
+        }
+        else if (this.yPose < 0)
+        {
+            this.yPos = 0;
         }
     }
     //let player = new Balloon(2020, "Tesla", "Model S", "red");
@@ -262,6 +304,15 @@ const playGame = () =>
 document.addEventListener("DOMContentLoaded", function() 
 {
     console.log("DOM Loaded");
+
+    document.body.addEventListener("keydown", function (e) 
+    {
+        keys[e.keyCode] = true;
+    });
+    document.body.addEventListener("keyup", function (e) 
+    {
+        keys[e.keyCode] = false;
+    });
 
     //DOM REFERECES
     game = document.getElementById("game");
