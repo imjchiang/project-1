@@ -23,6 +23,11 @@ let backgroundWidth = 0;
 let scrollBackgroundSpeed = -5;
 let iteration = 0;
 
+//for balloon image
+let balloonImage = document.createElement("img");
+balloonImage.setAttribute("id", "balloon-img");
+balloonImage.setAttribute("src", "8bit-balloon.png");
+
 //other
 //let ground = 545 to HEIGHT - 545
 
@@ -93,10 +98,15 @@ class Balloon
 
     render()
     {
+        ctx.drawImage(balloonImage, this.xPos, this.yPos, 70, 110);
+        /*
+        //if want balloon as circle
+        //may needs this for hitboxes later
         ctx.beginPath();
         ctx.fillStyle = "purple";
         ctx.arc(this.xPos, this.yPos, this.radius, 2 * Math.PI, 0);
         ctx.fill();
+        */
     }
 }
 
@@ -267,8 +277,6 @@ document.addEventListener("DOMContentLoaded", function()
     game.setAttribute("height", HEIGHT);
     ctx = game.getContext("2d");
 
-    ctx.fillStyle = "purple";
-    ctx.fillRect(0, 545, WIDTH, HEIGHT - 545);
     //character refs
     //create Player
     //maxBombs depends on difficulty level
