@@ -24,7 +24,7 @@ let scrollBackgroundSpeed = -5;
 let iteration = 0;
 
 //other
-//let ground = game.height * 0.65;
+//let ground = 545 to HEIGHT - 545
 
 //difficulty variables
 let difficulty = "";
@@ -267,6 +267,8 @@ document.addEventListener("DOMContentLoaded", function()
     game.setAttribute("height", HEIGHT);
     ctx = game.getContext("2d");
 
+    ctx.fillStyle = "purple";
+    ctx.fillRect(0, 545, WIDTH, HEIGHT - 545);
     //character refs
     //create Player
     //maxBombs depends on difficulty level
