@@ -1,3 +1,4 @@
+//GLOBAL VARIABLE DECLARATIONS ------------------------------------------------
 //canvas settings
 const HEIGHT = 700;
 const WIDTH = 1200;
@@ -29,6 +30,8 @@ let iteration = 0;
 let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
 balloonImage.setAttribute("src", "8bit-balloon.png");
+
+//store key press events
 let keys = [];
 
 //other
@@ -38,15 +41,17 @@ let keys = [];
 let difficulty = "";
 
 
+
+//CLASS AND OBJECT CREATION ---------------------------------------------------
 //create Balloon
 class Balloon
 {
-    constructor(radius, shape, xPos, yPos, maxBombs)
+    constructor(xPos, yPos, xSize, ySize, maxBombs)
     {
-        this.radius = radius;
-        this.shape = shape;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.xSize = xSize;
+        this.ySize = ySize;
         this.maxBombs = maxBombs;
         this.velX = 0;
         this.velY = 0;
@@ -55,17 +60,21 @@ class Balloon
     }
 
     //movement function of Balloon player
-    //need to change out width and height for the circle hitbox
-    //need to change out window size
+    //check key pressed and key released
+    //add in velocity factor
+    //add in acceleration factor (decceleration)
+    //velocity change differs based on direction (down and back faster)
     move()
     {
+        //if "w" or "arrow up" pressed
         if (keys[38] || keys[87])
         {
-            if (this.velY > -this.velocity)
+            if (this.velY > - this.velocity)
             {
                 this.velY--;
             }
         }
+        //if "s" or "arrow down" pressed
         if (keys[40] || keys[83])
         {
             if (this.velY < this.velocity)
@@ -73,13 +82,15 @@ class Balloon
                 this.velY += 3;
             }
         }
+        //if "a" or "arrow left" pressed
         if (keys[37] || keys[65])
         {
-            if (this.velX > -this.velocity)
+            if (this.velX > - this.velocity)
             {
                 this.velX -= 2;
             }
         }
+        //if "d" or "arrow right" pressed
         if (keys[39] || keys[68])
         {
             if (this.velX < this.velocity)
@@ -88,8 +99,11 @@ class Balloon
             }
         }
 
+        //decceleration based on drag coefficient
         this.velX *= this.drag;
         this.velY *= this.drag;
+
+        //position change based on velocity change
         this.xPos += this.velX;
         this.yPos += this.velY;
 
@@ -112,22 +126,18 @@ class Balloon
         {
             this.yPos = 0;
         }
-
-        //this.render();
     }
-    //let player = new Balloon(2020, "Tesla", "Model S", "red");
 
     render()
     {
-        ctx.drawImage(balloonImage, this.xPos, this.yPos, 70, 110);
-        /*
-        //if want balloon as circle
-        //may needs this for hitboxes later
-        ctx.beginPath();
-        ctx.fillStyle = "purple";
-        ctx.arc(this.xPos, this.yPos, this.radius, 2 * Math.PI, 0);
-        ctx.fill();
-        */
+        ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
+        
+        //hitbox for balloon
+        // ctx.beginPath();
+        // ctx.fillStyle = "purple";
+        // ctx.arc(this.xPos, this.yPos, this.radius, 2 * Math.PI, 0);
+        // ctx.fill();
+        
     }
 }
 
@@ -184,6 +194,9 @@ function Ammo(x, y, angle, speed, gravity, shape)
     }
 }
 
+
+
+//FUNCTIONS -------------------------------------------------------------------
 //need to add button click listener
 function checkGameConditions()
 {
@@ -248,8 +261,7 @@ function loopBackground()
     if (- backgroundWidth === game.width)
     {
         backgroundWidth = 0;
-    }
-    
+    }   
 }
 
 function startLoop()
@@ -281,6 +293,9 @@ const playGame = () =>
     player.move();
 }
 
+
+
+//SET UP AND RUN GAME ---------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function() 
 {
     console.log("DOM Loaded");
@@ -311,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function()
     //character refs
     //create Player
     //maxBombs depends on difficulty level
-    player = new Balloon(20, "circle", 150, 100, 5);
+    player = new Balloon(150, 100, 70, 110, 5);
     //create array of gunners
         //create array of ammo for gunners
     
@@ -334,38 +349,3 @@ document.addEventListener("DOMContentLoaded", function()
     //RUN GAME
     let runGame = setInterval(playGame, 60);
 })
-
-
-
-
-/*
-switch (e.key)
-        {
-            case ("w"):
-                if (this.velY > -this.velocity)
-                {
-                    this.velY--;
-                }
-                break;
-            case ("s"):
-                if (this.velY < this.velocity)
-                {
-                    this.velY++;
-                }
-                break;
-            case ("a"):
-                if (this.velX > -this.velocity)
-                {
-                    this.velX--;
-                }
-                break;
-            case ("d"):
-                if (this.velX < this.velocity)
-                {
-                    this.velX++;
-                }
-                break;
-            default:
-                console.log("WASD ONLY");
-        }
-*/
