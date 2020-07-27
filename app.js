@@ -48,11 +48,20 @@ class Balloon
 {
     constructor(xPos, yPos, xSize, ySize, maxBombs)
     {
+        //positioning and size
         this.xPos = xPos;
         this.yPos = yPos;
         this.xSize = xSize;
         this.ySize = ySize;
+
+        //are we still good?
+        this.alive = true;
+        this.hitGround = 0;     //hit ground 3 times = dead
+
+        //ammunition
         this.maxBombs = maxBombs;
+
+        //movement
         this.velX = 0;
         this.velY = 0;
         this.velocity = 120;
@@ -109,6 +118,7 @@ class Balloon
         if (this.yPos > HEIGHT - ground - 120)
         {
             this.yPos = HEIGHT - ground - 120;
+            this.hitGround++;
         }
         else if (this.yPos < 0)
         {
