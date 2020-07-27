@@ -429,18 +429,18 @@ function createGunners()
 {
     for (let i = 0; i < numGunners; i++)
     {
-        gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 585)) - 60);
+        gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 30);
     }
 
     for (let i = 1; i < numGunners + 1; i++)
     {
-        gunnerRandomX[i - 1] = (1.5 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+        gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
     }
 
     //check the number of gunners set according to difficulty
     switch (numGunners)
     {
-        //if 10 gunners, start here and go all the way down
+        //if 90 gunners, start here and go all the way down
         case (90):
             let gunner90 = new Gunner(gunnerRandomX[89], gunnerRandomY[89]);
             let gunner89 = new Gunner(gunnerRandomX[88], gunnerRandomY[88]);
@@ -490,6 +490,7 @@ function createGunners()
                             gunner65, gunner64, gunner63, gunner62, gunner61, 
                             gunner60, gunner59, gunner58, gunner57, gunner56, 
                             gunner55, gunner54, gunner53, gunner52, gunner51);
+        //if 50 gunners, start here and go all the way down
         case (50):
             let gunner50 = new Gunner(gunnerRandomX[49], gunnerRandomY[49]);
             let gunner49 = new Gunner(gunnerRandomX[48], gunnerRandomY[48]);
@@ -515,7 +516,7 @@ function createGunners()
                             gunner45, gunner44, gunner43, gunner42, gunner41, 
                             gunner40, gunner39, gunner38, gunner37, gunner36, 
                             gunner35, gunner34, gunner33, gunner32, gunner31);
-        //if 5 gunners, start here and go all the way down
+        //if 30 gunners, start here and go all the way down
         case (30):
             let gunner30 = new Gunner(gunnerRandomX[29], gunnerRandomY[29]);
             let gunner29 = new Gunner(gunnerRandomX[28], gunnerRandomY[28]);
@@ -535,7 +536,7 @@ function createGunners()
             manyGunners.push(gunner30, gunner29, gunner28, gunner27, gunner26, 
                             gunner25, gunner24, gunner23, gunner22, gunner21, 
                             gunner20, gunner19, gunner18, gunner17, gunner16);
-        //if 3 gunners, start here and go all the way down
+        //if 15 gunners, start here and go all the way down
         case (15):
             let gunner15 = new Gunner(gunnerRandomX[14], gunnerRandomY[14]);
             let gunner14 = new Gunner(gunnerRandomX[13], gunnerRandomY[13]);
