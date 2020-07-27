@@ -175,20 +175,12 @@ class Balloon
 }
 
 //create Bunker
-function Bunker(x, y, alive)//, rockets)
+function Bunker(x, y)//, rockets)
 {
     this.x = x;
     this.y = y;
-    this.alive = alive;
+    this.alive = true;
     //this.rockets = rockets;     //not essential
-    this.render = function()
-    {
-        ctx.beginPath();
-        ctx.fillStyle = "black";
-        ctx.arc(this.x, this.y, 10, Math.PI, 0);
-        ctx.closePath();
-        ctx.fill();
-    }
 }
 
 //create Gunners
@@ -201,9 +193,10 @@ function Gunner(x, y, angle, maxBullets, bulletFrequency)
     this.bulletFrequency = bulletFrequency;
     this.render = function()
     {
-
+        
     }
 }
+
 
 //give Ammo to different objects
 function Ammo(x, y, angle, speed, gravity, shape)
@@ -218,11 +211,11 @@ function Ammo(x, y, angle, speed, gravity, shape)
     {
         if (shape === "circle")
         {
-
+            
         }
         else if (shape === "rect")
         {
-
+            
         }
     }
 }
@@ -286,10 +279,10 @@ function loopBackground()
     ctxBackground.drawImage(backgroundImage, backgroundXPos, 0, WIDTH, HEIGHT);
     //draw queued background image
     ctxBackground.drawImage(backgroundImage, backgroundXPos + WIDTH, 0, WIDTH, HEIGHT);
-
+    
     //update backgroundImage scroll point
     backgroundXPos += scrollBackgroundSpeed;
-
+    
     //reset background image to initial state after complete scrolling of image 1
     if (- backgroundXPos === game.width)
     {
@@ -308,7 +301,7 @@ function startLoop()
 //global movement (not balloon)
 
 //run game 
-const playGame = () =>
+function playGame()
 {
     console.log("looping yeeet");
     //clear the canvas
@@ -316,16 +309,71 @@ const playGame = () =>
     
     //run background image loop
     startLoop();
-
+    
     //check if the bunker is alive
-        //if alive, render
-        //check collision with bomb
+    //if alive, render
+    renderBunkers();
+    //check collision with bomb
     
     //render the player
     player.render();
     player.move();
 }
 
+//create the bunkers
+function createBunkers()
+{
+    //check the number of bunkers set according to difficulty
+    switch (numBunkers)
+    {
+        //if 10 bunkers, start here and go all the way down
+        case (10):
+            let bunker10 = new Bunker(1000, 600);
+            let bunker9 = new Bunker(900, 600);
+            let bunker8 = new Bunker(800, 600);
+            manyBunkers.push(bunker10, bunker9, bunker8);
+        //if 7 bunkers, start here and go all the way down
+        case (7):
+            let bunker7 = new Bunker(700, 600);
+            let bunker6 = new Bunker(600, 600);
+            manyBunkers.push(bunker7, bunker6);
+        //if 5 bunkers, start here and go all the way down
+        case (5):
+            let bunker5 = new Bunker(500, 600);
+            let bunker4 = new Bunker(400, 600);
+            manyBunkers.push(bunker5, bunker4);
+        //if 3 bunkers, start here and go all the way down
+        case (3):
+            let bunker3 = new Bunker(300, 600);
+            let bunker2 = new Bunker(200, 600);
+            let bunker1 = new Bunker(100, 600);
+            manyBunkers.push(bunker3, bunker2, bunker1);
+            break;
+        //if invalid number of bunkers
+        default:
+            console.log("ERROR: INVALID NUMBER OF BUNKERS");
+            break;
+    }
+}
+
+//render bunkers if alive
+function renderBunkers()
+{
+    //for each bunker
+    manyBunkers.forEach(oneBunker =>
+    {
+        //if bunker is alive
+        if (oneBunker.alive)
+        {
+            //draw the bunker
+            ctx.beginPath();
+            ctx.fillStyle = "black";
+            ctx.arc(oneBunker.x, oneBunker.y, 10, Math.PI, 0);
+            ctx.closePath();
+            ctx.fill();    
+        }
+    });
+}
 
 
 //SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
@@ -366,19 +414,16 @@ document.addEventListener("DOMContentLoaded", function()
     //button click listener?
     checkGameConditions();
 
+    numBunkers = 10;
     //create bunkers
-    for (let i = 1; i <= numBunkers; i++)
-    {
-        //let bunker = new Bunker()
-        manyBunkers.push
-    }
-    
+    createBunkers();
+
     //if time allows for it, create rockets (ammo) that comes out of bunker occasionally
 
 
     //listen for keydown event
-    document.addEventListener("keydown", player.move);
+    //document.addEventListener("keydown", player.move);
 
     //RUN GAME
-    let runGame = setInterval(playGame, 60);
+    let runGame = setInterval(playGame, 60);    //change number for better fps, need to account for speed of game though
 })
