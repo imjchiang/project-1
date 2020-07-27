@@ -23,7 +23,7 @@ let backgroundImage = document.createElement("img");
 backgroundImage.setAttribute("id", "background-img");
 backgroundImage.setAttribute("src", "8bit-background.jpg");
 let backgroundXPos = 0;
-let scrollBackgroundSpeed = -5;
+let scrollSpeed = -5;
 //let iteration = 0;
 
 //for balloon image
@@ -248,7 +248,7 @@ function checkGameConditions()
         //create 30 gunners
         numGunners = 30;
         //change background speed to -10
-        scrollBackgroundSpeed = -10;
+        scrollSpeed = -10;
     }
     //if difficulty is hard
     if (difficulty === "hard")
@@ -258,7 +258,7 @@ function checkGameConditions()
         //create 50 gunners
         numGunners = 50;
         //change background speed to -15
-        scrollBackgroundSpeed = -15;
+        scrollSpeed = -15;
     }
     //if difficulty is death
     if (difficulty === "death")
@@ -268,33 +268,44 @@ function checkGameConditions()
         //create 90 gunners
         numGunners = 90;
         //change background speed to -25
-        scrollBackgroundSpeed = -25;
+        scrollSpeed = -25;
     }
 }
 
-function loopBackground()
+//move the background and objects
+function loopElements()
 {
     //iteration++;
-    //draw current background image
-    ctxBackground.drawImage(backgroundImage, backgroundXPos, 0, WIDTH, HEIGHT);
-    //draw queued background image
-    ctxBackground.drawImage(backgroundImage, backgroundXPos + WIDTH, 0, WIDTH, HEIGHT);
-    
-    //update backgroundImage scroll point
-    backgroundXPos += scrollBackgroundSpeed;
-    
-    //reset background image to initial state after complete scrolling of image 1
-    if (- backgroundXPos === game.width)
     {
-        backgroundXPos = 0;
-    }   
+        //draw current background image
+        ctxBackground.drawImage(backgroundImage, backgroundXPos, 0, WIDTH, HEIGHT);
+        //draw queued background image
+        ctxBackground.drawImage(backgroundImage, backgroundXPos + WIDTH, 0, WIDTH, HEIGHT);
+        
+        //update backgroundImage scroll point
+        backgroundXPos += scrollSpeed;
+        
+        //reset background image to initial state after complete scrolling of image 1
+        if (- backgroundXPos === game.width)
+        {
+            backgroundXPos = 0;
+        }   
+    }
+
+    {
+        manyBunkers.forEach(oneBunker =>
+        {
+            oneBunker.x += scrollSpeed;
+        });
+    }
 }
 
+//loop backgound image
 function startLoop()
 {
     //console.log(iteration);
-    //run background image animation
-    requestAnimationFrame(loopBackground);
+    //run background image animation and move objects
+    requestAnimationFrame(loopElements);
 }
 //add gravity
 
@@ -310,8 +321,7 @@ function playGame()
     //run background image loop
     startLoop();
     
-    //check if the bunker is alive
-    //if alive, render
+    //render alive bunkers
     renderBunkers();
     //check collision with bomb
     
@@ -352,6 +362,7 @@ function createBunkers()
         //if invalid number of bunkers
         default:
             console.log("ERROR: INVALID NUMBER OF BUNKERS");
+            console.log(numBunkers);
             break;
     }
 }
@@ -368,7 +379,7 @@ function renderBunkers()
             //draw the bunker
             ctx.beginPath();
             ctx.fillStyle = "black";
-            ctx.arc(oneBunker.x, oneBunker.y, 10, Math.PI, 0);
+            ctx.arc(oneBunker.x, oneBunker.y, 40, Math.PI, 0);
             ctx.closePath();
             ctx.fill();    
         }
@@ -381,11 +392,11 @@ document.addEventListener("DOMContentLoaded", function()
 {
     console.log("DOM Loaded");
 
-    document.body.addEventListener("keydown", function (e) 
+    document.addEventListener("keydown", function (e) 
     {
         keys[e.keyCode] = true;
     });
-    document.body.addEventListener("keyup", function (e) 
+    document.addEventListener("keyup", function (e) 
     {
         keys[e.keyCode] = false;
     });
@@ -412,7 +423,8 @@ document.addEventListener("DOMContentLoaded", function()
         //create array of ammo for gunners
     
     //button click listener?
-    checkGameConditions();
+    //difficulty = "medium";
+    //checkGameConditions();
 
     numBunkers = 10;
     //create bunkers
