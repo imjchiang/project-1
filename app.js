@@ -133,11 +133,44 @@ class Balloon
         ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
         
         //hitbox for balloon
-        // ctx.beginPath();
-        // ctx.fillStyle = "purple";
-        // ctx.arc(this.xPos, this.yPos, this.radius, 2 * Math.PI, 0);
-        // ctx.fill();
-        
+        //hitbox variables
+        let hitboxRadius = 34;
+        let xAlignment = hitboxRadius + 0.9;
+        let yAlignment = hitboxRadius + 1.4;
+        //circle portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "purple";
+        ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment, hitboxRadius, 2 * Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+        //main triangle portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "green";
+        ctx.moveTo(this.xPos, (this.yPos + (hitboxRadius * 1.2)));
+        ctx.lineTo((this.xPos + xAlignment), (this.yPos + 100));
+        ctx.lineTo((this.xPos + (xAlignment * 2)), (this.yPos + (hitboxRadius * 1.2)));
+        ctx.closePath();
+        ctx.fill();
+        //secondary triangle portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "blue";
+        ctx.moveTo((this.xPos + (hitboxRadius * 0.48)), (this.yPos + (hitboxRadius * 2)));
+        ctx.lineTo((this.xPos + (xAlignment * 1)), (this.yPos + 107));
+        ctx.lineTo((this.xPos + (xAlignment * 1.53)), (this.yPos + (hitboxRadius * 2)));
+        ctx.closePath();
+        ctx.fill();
+        //upper bottom half circle
+        ctx.beginPath();
+        ctx.fillStyle = "pink";
+        ctx.arc(this.xPos + xAlignment, this.yPos + 105, 8, Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+        //lower bottom half circle
+        ctx.beginPath();
+        ctx.fillStyle = "orange";
+        ctx.arc(this.xPos + xAlignment, this.yPos + 111, 9, 2 * Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
     }
 }
 
