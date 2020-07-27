@@ -31,6 +31,12 @@ let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
 balloonImage.setAttribute("src", "8bit-balloon-2.png");
 
+//for bunker image
+let bunkerImage = document.createElement("img");
+bunkerImage.setAttribute("id", "bunker-img");
+bunkerImage.setAttribute("src", "bunker-on-hill.png");
+let randomYPos = [];
+
 //store key press events
 let keys = [];
 
@@ -276,6 +282,7 @@ function checkGameConditions()
 function loopElements()
 {
     //iteration++;
+    //background scrolling
     {
         //draw current background image
         ctxBackground.drawImage(backgroundImage, backgroundXPos, 0, WIDTH, HEIGHT);
@@ -292,9 +299,12 @@ function loopElements()
         }   
     }
 
+    //bunker movement
     {
+        //for each bunker
         manyBunkers.forEach(oneBunker =>
         {
+            //move it at scroll speed
             oneBunker.x += scrollSpeed;
         });
     }
@@ -333,30 +343,34 @@ function playGame()
 //create the bunkers
 function createBunkers()
 {
+    for (let i = 0; i < 10; i++)
+    {
+        randomYPos[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 585)) - 60);
+    }
     //check the number of bunkers set according to difficulty
     switch (numBunkers)
     {
         //if 10 bunkers, start here and go all the way down
         case (10):
-            let bunker10 = new Bunker(1000, 600);
-            let bunker9 = new Bunker(900, 600);
-            let bunker8 = new Bunker(800, 600);
+            let bunker10 = new Bunker(6400, randomYPos[9]);
+            let bunker9 = new Bunker(5500, randomYPos[8]);
+            let bunker8 = new Bunker(4200, randomYPos[7]);
             manyBunkers.push(bunker10, bunker9, bunker8);
         //if 7 bunkers, start here and go all the way down
         case (7):
-            let bunker7 = new Bunker(700, 600);
-            let bunker6 = new Bunker(600, 600);
+            let bunker7 = new Bunker(3700, randomYPos[6]);
+            let bunker6 = new Bunker(2900, randomYPos[5]);
             manyBunkers.push(bunker7, bunker6);
         //if 5 bunkers, start here and go all the way down
         case (5):
-            let bunker5 = new Bunker(500, 600);
-            let bunker4 = new Bunker(400, 600);
+            let bunker5 = new Bunker(2100, randomYPos[4]);
+            let bunker4 = new Bunker(1500, randomYPos[3]);
             manyBunkers.push(bunker5, bunker4);
         //if 3 bunkers, start here and go all the way down
         case (3):
-            let bunker3 = new Bunker(300, 600);
-            let bunker2 = new Bunker(200, 600);
-            let bunker1 = new Bunker(100, 600);
+            let bunker3 = new Bunker(1000, randomYPos[2]);
+            let bunker2 = new Bunker(700, randomYPos[1]);
+            let bunker1 = new Bunker(WIDTH * 2, randomYPos[0]);
             manyBunkers.push(bunker3, bunker2, bunker1);
             break;
         //if invalid number of bunkers
@@ -377,11 +391,17 @@ function renderBunkers()
         if (oneBunker.alive)
         {
             //draw the bunker
+            ctx.drawImage(bunkerImage, oneBunker.x, oneBunker.y, 100, 50);
+            
+            //bunker as half circle
+            //hitbox for bunker??
+            /*
             ctx.beginPath();
             ctx.fillStyle = "black";
             ctx.arc(oneBunker.x, oneBunker.y, 40, Math.PI, 0);
             ctx.closePath();
             ctx.fill();    
+            */
         }
     });
 }
@@ -429,6 +449,8 @@ document.addEventListener("DOMContentLoaded", function()
     numBunkers = 10;
     //create bunkers
     createBunkers();
+
+    console.log(HEIGHT - Math.floor(Math.random() * (HEIGHT - 585)) - 60);
 
     //if time allows for it, create rockets (ammo) that comes out of bunker occasionally
 
