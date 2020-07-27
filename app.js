@@ -36,6 +36,7 @@ let bunkerImage = document.createElement("img");
 bunkerImage.setAttribute("id", "bunker-img");
 bunkerImage.setAttribute("src", "bunker-on-hill.png");
 let randomYPos = [];
+let randomXPos = [];
 
 //store key press events
 let keys = [];
@@ -347,30 +348,36 @@ function createBunkers()
     {
         randomYPos[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 585)) - 60);
     }
+
+    for (let i = 1; i < 11; i++)
+    {
+        randomXPos[i - 1] = (1.5 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+    }
+
     //check the number of bunkers set according to difficulty
     switch (numBunkers)
     {
         //if 10 bunkers, start here and go all the way down
         case (10):
-            let bunker10 = new Bunker(6400, randomYPos[9]);
-            let bunker9 = new Bunker(5500, randomYPos[8]);
-            let bunker8 = new Bunker(4200, randomYPos[7]);
+            let bunker10 = new Bunker(randomXPos[9], randomYPos[9]);
+            let bunker9 = new Bunker(randomXPos[8], randomYPos[8]);
+            let bunker8 = new Bunker(randomXPos[7], randomYPos[7]);
             manyBunkers.push(bunker10, bunker9, bunker8);
         //if 7 bunkers, start here and go all the way down
         case (7):
-            let bunker7 = new Bunker(3700, randomYPos[6]);
-            let bunker6 = new Bunker(2900, randomYPos[5]);
+            let bunker7 = new Bunker(randomXPos[6], randomYPos[6]);
+            let bunker6 = new Bunker(randomXPos[5], randomYPos[5]);
             manyBunkers.push(bunker7, bunker6);
         //if 5 bunkers, start here and go all the way down
         case (5):
-            let bunker5 = new Bunker(2100, randomYPos[4]);
-            let bunker4 = new Bunker(1500, randomYPos[3]);
+            let bunker5 = new Bunker(randomXPos[4], randomYPos[4]);
+            let bunker4 = new Bunker(randomXPos[3], randomYPos[3]);
             manyBunkers.push(bunker5, bunker4);
         //if 3 bunkers, start here and go all the way down
         case (3):
-            let bunker3 = new Bunker(1000, randomYPos[2]);
-            let bunker2 = new Bunker(700, randomYPos[1]);
-            let bunker1 = new Bunker(WIDTH * 2, randomYPos[0]);
+            let bunker3 = new Bunker(randomXPos[2], randomYPos[2]);
+            let bunker2 = new Bunker(randomXPos[1], randomYPos[1]);
+            let bunker1 = new Bunker(randomXPos[0], randomYPos[0]);
             manyBunkers.push(bunker3, bunker2, bunker1);
             break;
         //if invalid number of bunkers
@@ -450,7 +457,6 @@ document.addEventListener("DOMContentLoaded", function()
     //create bunkers
     createBunkers();
 
-    console.log(HEIGHT - Math.floor(Math.random() * (HEIGHT - 585)) - 60);
 
     //if time allows for it, create rockets (ammo) that comes out of bunker occasionally
 
