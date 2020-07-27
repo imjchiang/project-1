@@ -22,20 +22,20 @@ let numGunners;
 let backgroundImage = document.createElement("img");
 backgroundImage.setAttribute("id", "background-img");
 backgroundImage.setAttribute("src", "8bit-background.jpg");
-let backgroundWidth = 0;
+let backgroundXPos = 0;
 let scrollBackgroundSpeed = -5;
-let iteration = 0;
+//let iteration = 0;
 
 //for balloon image
 let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
-balloonImage.setAttribute("src", "8bit-balloon.png");
+balloonImage.setAttribute("src", "8bit-balloon-2.png");
 
 //store key press events
 let keys = [];
 
 //other
-//let ground = 545 to HEIGHT - 545
+let ground = 155;
 
 //difficulty variables
 let difficulty = "";
@@ -56,7 +56,7 @@ class Balloon
         this.velX = 0;
         this.velY = 0;
         this.velocity = 120;
-        this.drag = 0.8;
+        this.drag = 0.85;
     }
 
     //movement function of Balloon player
@@ -69,34 +69,22 @@ class Balloon
         //if "w" or "arrow up" pressed
         if (keys[38] || keys[87])
         {
-            if (this.velY > - this.velocity)
-            {
-                this.velY--;
-            }
+            this.velY--;
         }
         //if "s" or "arrow down" pressed
         if (keys[40] || keys[83])
         {
-            if (this.velY < this.velocity)
-            {
-                this.velY += 3;
-            }
+            this.velY += 3;
         }
         //if "a" or "arrow left" pressed
         if (keys[37] || keys[65])
         {
-            if (this.velX > - this.velocity)
-            {
-                this.velX -= 2;
-            }
+            this.velX -= 2;
         }
         //if "d" or "arrow right" pressed
         if (keys[39] || keys[68])
         {
-            if (this.velX < this.velocity)
-            {
-                this.velX++;
-            }
+            this.velX++;
         }
 
         //decceleration based on drag coefficient
@@ -118,9 +106,9 @@ class Balloon
         }
 
         //in bounds y axis
-        if (this.yPos > HEIGHT - 110)
+        if (this.yPos > HEIGHT - ground - 120)
         {
-            this.yPos = HEIGHT - 110;
+            this.yPos = HEIGHT - ground - 120;
         }
         else if (this.yPos < 0)
         {
@@ -128,6 +116,8 @@ class Balloon
         }
     }
 
+    //render balloon object
+    //render hitboxes
     render()
     {
         ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
@@ -281,19 +271,19 @@ function checkGameConditions()
 
 function loopBackground()
 {
-    iteration++;
+    //iteration++;
     //draw current background image
-    ctxBackground.drawImage(backgroundImage, backgroundWidth, 0, WIDTH, HEIGHT);
+    ctxBackground.drawImage(backgroundImage, backgroundXPos, 0, WIDTH, HEIGHT);
     //draw queued background image
-    ctxBackground.drawImage(backgroundImage, backgroundWidth + WIDTH, 0, WIDTH, HEIGHT);
+    ctxBackground.drawImage(backgroundImage, backgroundXPos + WIDTH, 0, WIDTH, HEIGHT);
 
     //update backgroundImage scroll point
-    backgroundWidth += scrollBackgroundSpeed;
+    backgroundXPos += scrollBackgroundSpeed;
 
     //reset background image to initial state after complete scrolling of image 1
-    if (- backgroundWidth === game.width)
+    if (- backgroundXPos === game.width)
     {
-        backgroundWidth = 0;
+        backgroundXPos = 0;
     }   
 }
 
