@@ -436,15 +436,15 @@ function renderBunkers()
 //create the gunners
 function createGunners()
 {
-    //create random x values for gunners
+    //create placeholder x values for gunners
     for (let i = 0; i < numGunners; i++)
     {
-        gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
+        gunnerRandomY[i] = 0;
     }
-    //create random y values for gunners
+    //create placeholder y values for gunners
     for (let i = 1; i < numGunners + 1; i++)
     {
-        gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+        gunnerRandomX[i - 1] = 0;
     }
 
     let invalidGunner = true;
@@ -452,11 +452,51 @@ function createGunners()
     //check the gunner for no overlap
     while (invalidGunner || i < numGunners)
     {
+        //assign random position for gunner
         gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
         gunnerRandomX[i] = (0.2 * WIDTH * (i + 1)) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
-        //cycle through all the gunners
+        
+        //cycle through all the bunkers to check if each gunner has same position
+        for (let b = 0; b < numBunkers; b++)
+        {
+            //if there is no gunner in the array we are accessing
+            if (bunkerRandomX[b] === null || bunkerRandomY[b] === null)
+            {
+                //return the error statement
+                console.log("ERROR: NULL BUNKER DATA");
+            }
+
+            //if gunner position collides with bunker position
+            if ((gunnerRandomX[i] >= bunkerRandomX[b] && gunnerRandomX[i] <= bunkerRandomX[b] + bunkerXSize + 5) && (gunnerRandomY[i] >= bunkerRandomY[b] && gunnerRandomY[i] <= bunkerRandomY[b] + bunkerYSize + 5) || 
+                (gunnerRandomX[i] + gunnerXSize + 5 >= bunkerRandomX[b] && gunnerRandomX[i] + gunnerXSize + 5 <= bunkerRandomX[b] + bunkerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= bunkerRandomY[b] && gunnerRandomY[i] + gunnerYSize + 5 <= bunkerRandomY[b] + bunkerYSize + 5) || 
+                (gunnerRandomX[i] + gunnerXSize + 5 >= bunkerRandomX[b] && gunnerRandomX[i] + gunnerXSize + 5 <= bunkerRandomX[b] + bunkerXSize + 5) && (gunnerRandomY[i] >= bunkerRandomY[b] && gunnerRandomY[i] <= bunkerRandomY[b] + bunkerYSize + 5) || 
+                (gunnerRandomX[i] >= bunkerRandomX[b] && gunnerRandomX[i] <= bunkerRandomX[b] + bunkerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= bunkerRandomY[b] && gunnerRandomY[i] + gunnerYSize + 5 <= bunkerRandomY[b] + bunkerYSize + 5))
+            {
+                //print gunner and bunker collision
+                console.log("i: " + i + "; bunker: " + b + "; collision: reassign position for " + i);
+                //invalid gunner
+                invalidGunner = true;
+                //exit for loop
+                break;
+            }
+            //no gunner and bunker collision
+            else
+            {
+                //valid gunner
+                invalidGunner = false;
+            }
+        }
+
+        //cycle through all other gunners to check if gunners have same position
         for (let g = 0; g < numGunners; g++)
         {
+            //if invalid gunner set from cycling bunkers
+            if (invalidGunner)
+            {
+                //break out to restart while loop and reassign position for same gunner
+                break;
+            }
+
             //if there is no gunner in the array we are accessing
             if (gunnerRandomX[g] === null || gunnerRandomY[g] === null)
             {
@@ -464,29 +504,33 @@ function createGunners()
                 console.log("ERROR: NULL GUNNER DATA");
             }
 
+            //if we are not comoparing the gunner with itself
             if (i !== g)
             {
-                //if the x and y coordinates of the gunners are identical
+                //if gunner positions collide
                 if ((gunnerRandomX[i] >= gunnerRandomX[g] && gunnerRandomX[i] <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] >= gunnerRandomY[g] && gunnerRandomY[i] <= gunnerRandomY[g] + gunnerYSize + 5) || 
                     (gunnerRandomX[i] + gunnerXSize + 5 >= gunnerRandomX[g] && gunnerRandomX[i] + gunnerXSize + 5 <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= gunnerRandomY[g] && gunnerRandomY[i] + gunnerYSize + 5 <= gunnerRandomY[g] + gunnerYSize + 5) || 
                     (gunnerRandomX[i] + gunnerXSize + 5 >= gunnerRandomX[g] && gunnerRandomX[i] + gunnerXSize + 5 <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] >= gunnerRandomY[g] && gunnerRandomY[i] <= gunnerRandomY[g] + gunnerYSize + 5) || 
                     (gunnerRandomX[i] >= gunnerRandomX[g] && gunnerRandomX[i] <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= gunnerRandomY[g] && gunnerRandomY[i] + gunnerYSize + 5 <= gunnerRandomY[g] + gunnerYSize + 5))
                 {
-                    //invalid gunner (need to reassign coordinates), break out of for loop
-                    console.log("i index: " + i + " Position: " + gunnerRandomX[i] + ", " + gunnerRandomY[i]);
-                    console.log("g index: " + g);
+                    //print gunner collision
+                    console.log("i: " + i + "; g: " + g + "; collision: reassign position for " + i);
+                    //invalid gunner
                     invalidGunner = true;
+                    //exit for loop
                     break;
                 }
-                //if coordinates don't match
+                //if valid gunner
                 else
                 {
                     invalidGunner = false;
                 }
             }
+        //if gunner is valid after comparing with bunkers and other gunners
         }
         if (!invalidGunner)
         {
+            //progress to next gunner position assignment in while loop
             i++;
         }
     }
