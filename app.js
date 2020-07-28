@@ -58,6 +58,11 @@ let turretImage = document.createElement("img");
 turretImage.setAttribute("id", "turret-img");
 turretImage.setAttribute("src", "green-turret.png");
 
+//for bomb image
+let bombImage = document.createElement("img");
+bombImage.setAttribute("id", "bomb-img");
+bombImage.setAttribute("src", "balloon-bomb.png");
+
 //store key press events
 let keys = [];
 
@@ -354,12 +359,13 @@ function playGame()
     renderBunkers();
     //render gunners
     renderGunners();
-
     //check collision with bomb
     
     //render the player
     player.render();
     player.move();
+
+    renderBombs();
 }
 
 //create the bunkers
@@ -643,7 +649,7 @@ function renderBombs()
     balloonAmmo.forEach(oneAmmo =>
     {
         //draw the gunner
-        ctx.drawImage(balloonBomb, oneAmmo.x, oneAmmo.y, 40, 40);
+        ctx.drawImage(bombImage, oneAmmo.x, oneAmmo.y, 15, 15);
 
         //gunner as a rectangle
         /*
