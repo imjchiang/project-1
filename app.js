@@ -29,6 +29,12 @@ let gunnerRandomX = [];
 let gunnerXSize = 34;
 let gunnerYSize = 30;
 
+let numGunnerAmmo;
+let gunnerAmmo = [];
+
+let numBalloonAmmo;
+let balloonAmmo = [];
+
 //for background image scrolling
 let backgroundImage = document.createElement("img");
 backgroundImage.setAttribute("id", "background-img");
@@ -64,7 +70,7 @@ let difficulty = "";
 //create Balloon
 class Balloon
 {
-    constructor(xPos, yPos, xSize, ySize, maxBombs)
+    constructor(xPos, yPos, xSize, ySize)
     {
         //positioning and size
         this.xPos = xPos;
@@ -75,9 +81,6 @@ class Balloon
         //are we still good?
         this.alive = true;
         this.hitGround = 0;     //hit ground 3 times = dead
-
-        //ammunition
-        this.maxBombs = maxBombs;
 
         //movement
         this.velX = 0;
@@ -211,27 +214,14 @@ function Gunner(x, y)//, angle, maxBullets, bulletFrequency)
     // this.bulletFrequency = bulletFrequency;
 }
 
-
 //give Ammo to different objects
-function Ammo(x, y, angle, speed, gravity, shape)
+function Ammo(x, y, angle, fired)
 {
     this.x = x;
     this.y = y;
     this.angle = angle;
-    this.speed = speed;
-    this.gravity = gravity;
-    this.shape = shape;
-    this.render = function()
-    {
-        if (shape === "circle")
-        {
-            
-        }
-        else if (shape === "rect")
-        {
-            
-        }
-    }
+    this.fired = fired;
+    //this.speed = speed;
 }
 
 
@@ -326,6 +316,20 @@ function loopElements()
             oneGunner.x += scrollSpeed;
         });
     }
+
+    //ammo movement
+    {
+        gunnerAmmo.forEach(oneAmmo =>
+        {
+            //move it at scroll speed
+            oneAmmo.x += scrollSpeed;
+        })
+        balloonAmmo.forEach(oneAmmo =>
+        {
+            //move it at scroll speed
+            oneAmmo.x += scrollSpeed;
+        })
+    }
 }
 
 //loop backgound image
@@ -335,9 +339,6 @@ function startLoop()
     //run background image animation and move objects
     requestAnimationFrame(loopElements);
 }
-//add gravity
-
-//global movement (not balloon)
 
 //run game 
 function playGame()
@@ -578,14 +579,71 @@ function createGunners()
 //render gunners
 function renderGunners()
 {
-    let r = 50;
-    let g = 250;
-    let b = 50;
+    // let r = 50;
+    // let g = 250;
+    // let b = 50;
     //for each bunker
     manyGunners.forEach(oneGunner =>
     {
         //draw the gunner
         ctx.drawImage(turretImage, oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+
+        //gunner as a rectangle
+        /*
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 100)`;
+        ctx.fillRect(oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+        r+=1.5;
+        g-=5;
+        b+=2
+        */
+    });
+}
+
+//create the bombs for the balloon
+function createBombs()
+{
+    switch (numBalloonAmmo)
+    {
+        case (10):
+            for (let i = 9; i > 7; i--)
+            {
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                balloonAmmo.push(bomb);
+            }
+        case (8):
+            for (let i = 7; i > 6; i--)
+            {
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                balloonAmmo.push(bomb);
+            }
+        case (7):
+            for (let i = 6; i > 4; i--)
+            {
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                balloonAmmo.push(bomb);
+            }
+        case (5):
+            for (let i = 4; i >= 0; i--)
+            {
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                balloonAmmo.push(bomb);
+            }
+            break;
+        default:
+            console.log("ERROR: INVALID NUMBER OF BOMBS");
+            console.log(numBalloonAmmo);
+            break;
+    }
+}
+
+//render bombs for balloon
+function renderBombs()
+{
+    //for each bomb
+    balloonAmmo.forEach(oneAmmo =>
+    {
+        //draw the gunner
+        ctx.drawImage(balloonBomb, oneAmmo.x, oneAmmo.y, 40, 40);
 
         //gunner as a rectangle
         /*
@@ -629,9 +687,12 @@ document.addEventListener("DOMContentLoaded", function()
 
     //character refs
     //create Player
-    //maxBombs depends on difficulty level
-    player = new Balloon(150, 100, 70, 120, 5);
-    //create array of gunners
+    player = new Balloon(150, 100, 70, 120);
+    //create bombs for player
+    numBalloonAmmo = 10;
+    createBombs();
+
+
         //create array of ammo for gunners
     
     //button click listener?
