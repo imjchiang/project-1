@@ -47,6 +47,11 @@ let bunkerImage = document.createElement("img");
 bunkerImage.setAttribute("id", "bunker-img");
 bunkerImage.setAttribute("src", "bunker-on-hill.png");
 
+//for turret image
+let turretImage = document.createElement("img");
+turretImage.setAttribute("id", "turret-img");
+turretImage.setAttribute("src", "green-turret.png");
+
 //store key press events
 let keys = [];
 
@@ -536,14 +541,16 @@ function renderGunners()
     manyGunners.forEach(oneGunner =>
     {
         //draw the gunner
-        //ctx.drawImage(gunnerImage, oneGunner.x, oneGunner.y, 100, 50);
-        
+        ctx.drawImage(turretImage, oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+
         //gunner as a rectangle
+        /*
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 100)`;
         ctx.fillRect(oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
         r+=1.5;
         g-=5;
         b+=2
+        */
     });
 }
 
@@ -601,5 +608,5 @@ document.addEventListener("DOMContentLoaded", function()
     //document.addEventListener("keydown", player.move);
 
     //RUN GAME
-    let runGame = setInterval(playGame, 10);    //change number for better fps, need to account for speed of game though (45)
+    let runGame = setInterval(playGame, 45);    //change number for better fps, need to account for speed of game though (45)
 })
