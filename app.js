@@ -19,11 +19,15 @@ let manyBunkers = [];
 let numBunkers;
 let bunkerRandomY = [];
 let bunkerRandomX = [];
+let bunkerXSize = 100;
+let bunkerYSize = 50;
 
 let manyGunners = [];
 let numGunners;
 let gunnerRandomY = [];
 let gunnerRandomX = [];
+let gunnerXSize = 34;
+let gunnerYSize = 30;
 
 //for background image scrolling
 let backgroundImage = document.createElement("img");
@@ -337,7 +341,7 @@ function playGame()
     //clear the canvas
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     
-    //run background image loop
+    //run loop for background and moving objects
     startLoop();
     
     //render alive bunkers
@@ -409,7 +413,7 @@ function renderBunkers()
         if (oneBunker.alive)
         {
             //draw the bunker
-            ctx.drawImage(bunkerImage, oneBunker.x, oneBunker.y, 100, 50);
+            ctx.drawImage(bunkerImage, oneBunker.x, oneBunker.y, bunkerXSize, bunkerYSize);
             
             //bunker as half circle
             //hitbox for bunker??
@@ -427,74 +431,90 @@ function renderBunkers()
 //create the gunners
 function createGunners()
 {
-    // for (let i = 0; i < numGunners; i++)
-    // {
-    //     gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
-    // }
+    //create random x values for gunners
+    for (let i = 0; i < numGunners; i++)
+    {
+        gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
+    }
+    //create random y values for gunners
+    for (let i = 1; i < numGunners + 1; i++)
+    {
+        gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+    }
 
-    // for (let i = 1; i < numGunners + 1; i++)
-    // {
-    //     //check for no overlapping
-    //     gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
-    // }
+    let invalidGunner = true;
+    let i = 0;
+    //check the gunner for no overlap
+    while (invalidGunner || i < numGunners)
+    {
+        gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
+        gunnerRandomX[i] = (0.2 * WIDTH * (i + 1)) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+        //cycle through all the gunners
+        for (let g = 0; g < numGunners; g++)
+        {
+            //if there is no gunner in the array we are accessing
+            if (gunnerRandomX[g] === null || gunnerRandomY[g] === null)
+            {
+                //return the error statement
+                console.log("ERROR: NULL GUNNER DATA");
+            }
+
+            if (i !== g)
+            {
+                //if the x and y coordinates of the gunners are identical
+                if ((gunnerRandomX[i] >= gunnerRandomX[g] && gunnerRandomX[i] <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] >= gunnerRandomY[g] && gunnerRandomY[i] <= gunnerRandomY[g] + gunnerYSize + 5) || 
+                    (gunnerRandomX[i] + gunnerXSize + 5 >= gunnerRandomX[g] && gunnerRandomX[i] + gunnerXSize + 5 <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= gunnerRandomY[g] && gunnerRandomY[i] + gunnerYSize + 5 <= gunnerRandomY[g] + gunnerYSize + 5) || 
+                    (gunnerRandomX[i] + gunnerXSize + 5 >= gunnerRandomX[g] && gunnerRandomX[i] + gunnerXSize + 5 <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] >= gunnerRandomY[g] && gunnerRandomY[i] <= gunnerRandomY[g] + gunnerYSize + 5) || 
+                    (gunnerRandomX[i] >= gunnerRandomX[g] && gunnerRandomX[i] <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= gunnerRandomY[g] && gunnerRandomY[i] + gunnerYSize + 5 <= gunnerRandomY[g] + gunnerYSize + 5))
+                {
+                    //invalid gunner (need to reassign coordinates), break out of for loop
+                    console.log("i index: " + i + " Position: " + gunnerRandomX[i] + ", " + gunnerRandomY[i]);
+                    console.log("g index: " + g);
+                    invalidGunner = true;
+                    break;
+                }
+                //if coordinates don't match
+                else
+                {
+                    invalidGunner = false;
+                }
+            }
+        }
+        if (!invalidGunner)
+        {
+            i++;
+        }
+    }
 
     //check the number of gunners set according to difficulty
     switch (numGunners)
     {
         //if 90 gunners, start here and go all the way down
         case (90):
-            for (let i = 90; i > 50; i--)
+            for (let i = 89; i > 49; i--)
             {
-                gunnerRandomY[i - 1] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
-                gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
-
-
-
-
-
-
-
-
-
-                //HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-                /*
-                while (in other gunner box || in bunker box)
-                {
-                    gunnerRandomY[i - 1] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
-                    gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
-                }
-                */
-
-
-
-                
-
-
-
-
-
-                let newGunner = new Gunner(gunnerRandomX[i - 1], gunnerRandomY[i - 1]);
+                let newGunner = new Gunner(gunnerRandomX[i], gunnerRandomY[i]);
                 manyGunners.push(newGunner);
             }
         //if 50 gunners, start here and go all the way down
         case (50):
-            for (let i = 50; i > 30; i--)
+            for (let i = 49; i > 29; i--)
             {
-                let newGunner = new Gunner(gunnerRandomX[i - 1], gunnerRandomY[i - 1]);
+                let newGunner = new Gunner(gunnerRandomX[i], gunnerRandomY[i]);
                 manyGunners.push(newGunner);
             }
         //if 30 gunners, start here and go all the way down
         case (30):
-            for (let i = 30; i > 15; i--)
+            for (let i = 29; i > 14; i--)
             {
-                let newGunner = new Gunner(gunnerRandomX[i - 1], gunnerRandomY[i - 1]);
+                let newGunner = new Gunner(gunnerRandomX[i], gunnerRandomY[i]);
                 manyGunners.push(newGunner);
             }
         //if 15 gunners, start here and go all the way down
         case (15):
-            for (let i = 15; i > 0; i--)
+            for (let i = 14; i >= 0; i--)
             {
-                let newGunner = new Gunner(gunnerRandomX[i - 1], gunnerRandomY[i - 1]);
+                let newGunner = new Gunner(gunnerRandomX[i], gunnerRandomY[i]);
                 manyGunners.push(newGunner);
             }
             break;
@@ -509,6 +529,9 @@ function createGunners()
 //render gunners
 function renderGunners()
 {
+    let r = 50;
+    let g = 250;
+    let b = 50;
     //for each bunker
     manyGunners.forEach(oneGunner =>
     {
@@ -516,8 +539,11 @@ function renderGunners()
         //ctx.drawImage(gunnerImage, oneGunner.x, oneGunner.y, 100, 50);
         
         //gunner as a rectangle
-        ctx.fillStyle = "pink";
-        ctx.fillRect(oneGunner.x, oneGunner.y, 34, 30);
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 100)`;
+        ctx.fillRect(oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+        r+=1.5;
+        g-=5;
+        b+=2
     });
 }
 
