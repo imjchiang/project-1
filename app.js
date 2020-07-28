@@ -427,15 +427,16 @@ function renderBunkers()
 //create the gunners
 function createGunners()
 {
-    for (let i = 0; i < numGunners; i++)
-    {
-        gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 30);
-    }
+    // for (let i = 0; i < numGunners; i++)
+    // {
+    //     gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
+    // }
 
-    for (let i = 1; i < numGunners + 1; i++)
-    {
-        gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
-    }
+    // for (let i = 1; i < numGunners + 1; i++)
+    // {
+    //     //check for no overlapping
+    //     gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+    // }
 
     //check the number of gunners set according to difficulty
     switch (numGunners)
@@ -444,6 +445,34 @@ function createGunners()
         case (90):
             for (let i = 90; i > 50; i--)
             {
+                gunnerRandomY[i - 1] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
+                gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+
+
+
+
+
+
+
+
+
+                //HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+                /*
+                while (in other gunner box || in bunker box)
+                {
+                    gunnerRandomY[i - 1] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
+                    gunnerRandomX[i - 1] = (0.2 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+                }
+                */
+
+
+
+                
+
+
+
+
+
                 let newGunner = new Gunner(gunnerRandomX[i - 1], gunnerRandomY[i - 1]);
                 manyGunners.push(newGunner);
             }
@@ -486,13 +515,9 @@ function renderGunners()
         //draw the gunner
         //ctx.drawImage(gunnerImage, oneGunner.x, oneGunner.y, 100, 50);
         
-        //gunner as half circle
-        ctx.beginPath();
-        ctx.fillStyle = "brown";
-        ctx.arc(oneGunner.x, oneGunner.y, 17, Math.PI, 0);
-        ctx.closePath();
-        ctx.fill();    
-        
+        //gunner as a rectangle
+        ctx.fillStyle = "pink";
+        ctx.fillRect(oneGunner.x, oneGunner.y, 34, 30);
     });
 }
 
