@@ -448,7 +448,7 @@ function createBunkers()
 
     for (let i = 1; i < numBunkers + 1; i++)
     {
-        bunkerRandomX[i - 1] = (1.5 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+        bunkerRandomX[i - 1] = (1.5 * WIDTH * i) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2)) + WIDTH * 1.5;
     }
 
     //check the number of bunkers set according to difficulty
@@ -533,7 +533,7 @@ function createGunners()
     {
         //assign random position for gunner
         gunnerRandomY[i] = (HEIGHT - Math.floor(Math.random() * (HEIGHT - 600)) - 40);
-        gunnerRandomX[i] = (0.2 * WIDTH * (i + 1)) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2));
+        gunnerRandomX[i] = (0.2 * WIDTH * (i + 1)) + Math.floor(Math.random() * (WIDTH / 4)) - Math.floor(Math.random() * (WIDTH / 2)) + WIDTH * 1.5;
         
         //cycle through all the bunkers to check if each gunner has same position
         for (let b = 0; b < numBunkers; b++)
@@ -863,7 +863,7 @@ function createBullets()
         for (let i = 0; i < numGunnerAmmo; i++)
         {
             let bullet = new Ammo(manyGunners[g].x, manyGunners[g].y, 135, false, 1);
-            bullet.countdown = 50 * i; //Math.floor(Math.random());
+            bullet.countdown = i * (Math.floor(Math.random() * 10) + 65);
             eachGunner.push(bullet);
             console.log("gunner: " + g + "has " + i + " bullet");
         }
@@ -890,7 +890,7 @@ function renderBullets()
             let eachBullet = gunnerAmmo[i][j];
             if (eachBullet.x >= 0 || eachBullet.y >= 0)
             {
-                if (eachBullet.x <= WIDTH * 1.5 && eachBullet.countdown <= -30)
+                if (eachBullet.x <= WIDTH * 1.5 && eachBullet.countdown <= 0)
                 {
                     ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
                     eachBullet.fired = true;
