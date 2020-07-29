@@ -220,12 +220,13 @@ function Gunner(x, y)//, angle, maxBullets, bulletFrequency)
 }
 
 //give Ammo to different objects
-function Ammo(x, y, angle, fired)
+function Ammo(x, y, angle, fired, speed)
 {
     this.x = x;
     this.y = y;
     this.angle = angle;
     this.fired = fired;
+    this.speed = speed;
     //this.speed = speed;
 }
 
@@ -331,8 +332,12 @@ function loopElements()
         })
         balloonAmmo.forEach(oneAmmo =>
         {
-            //move it at scroll speed
-            oneAmmo.x += scrollSpeed;
+            //if bomb has been fired
+            if (oneAmmo.fired)
+            {
+                //move it at scroll speed
+                oneAmmo.x += scrollSpeed;
+            }
         })
     }
 }
@@ -366,6 +371,7 @@ function playGame()
     player.move();
 
     renderBombs();
+    moveBombs();
 }
 
 //create the bunkers
@@ -613,25 +619,25 @@ function createBombs()
         case (10):
             for (let i = 9; i > 7; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
                 balloonAmmo.push(bomb);
             }
         case (8):
             for (let i = 7; i > 6; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
                 balloonAmmo.push(bomb);
             }
         case (7):
             for (let i = 6; i > 4; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
                 balloonAmmo.push(bomb);
             }
         case (5):
             for (let i = 4; i >= 0; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false);
+                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
                 balloonAmmo.push(bomb);
             }
             break;
@@ -646,22 +652,38 @@ function createBombs()
 function renderBombs()
 {
     //for each bomb
-    balloonAmmo.forEach(oneAmmo =>
+    balloonAmmo.forEach(oneBomb =>
     {
-        //draw the gunner
-        ctx.drawImage(bombImage, oneAmmo.x, oneAmmo.y, 15, 15);
-
-        //gunner as a rectangle
-        /*
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 100)`;
-        ctx.fillRect(oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
-        r+=1.5;
-        g-=5;
-        b+=2
-        */
+        //if bomb has been fired
+        if (oneBomb.fired)
+        {
+            //draw the bomb
+            ctx.drawImage(bombImage, oneBomb.x, oneBomb.y, 15, 15);    
+        }
     });
 }
 
+//move bombs according to gravity
+function moveBombs()
+{
+    //for each bomb
+    balloonAmmo.forEach(oneBomb =>
+    {
+        //if bomb has been fired
+        if (oneBomb.fired)
+        {
+            //move bomb down according to gravity
+            oneBomb.y += 0.98 * oneBomb.speed;
+            oneBomb.speed++;
+        }
+    })
+}
+
+//sets bomb fired to true
+function bombFired()
+{
+    
+}
 
 //SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function() 
