@@ -626,25 +626,25 @@ function createBombs()
         case (10):
             for (let i = 9; i > 7; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
+                let bomb = new Ammo(player.xPos + (player.xSize / 2 - 15), player.yPos + (player.ySize - 25), 270, false, 1);
                 balloonAmmo.push(bomb);
             }
         case (8):
             for (let i = 7; i > 6; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
+                let bomb = new Ammo(player.xPos + (player.xSize / 2 - 15), player.yPos + (player.ySize - 25), 270, false, 1);
                 balloonAmmo.push(bomb);
             }
         case (7):
             for (let i = 6; i > 4; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
+                let bomb = new Ammo(player.xPos + (player.xSize / 2 - 15), player.yPos + (player.ySize - 25), 270, false, 1);
                 balloonAmmo.push(bomb);
             }
         case (5):
             for (let i = 4; i >= 0; i--)
             {
-                let bomb = new Ammo(player.xPos, player.yPos, 270, false, 1);
+                let bomb = new Ammo(player.xPos + (player.xSize / 2 - 15), player.yPos + (player.ySize - 25), 270, false, 1);
                 balloonAmmo.push(bomb);
             }
             break;
@@ -683,24 +683,25 @@ function moveBombs()
             oneBomb.y += 0.98 * oneBomb.speed;
             oneBomb.speed++;
         }
+        //if bomb hasn't been fired
         else
         {
-            //if "w" or "arrow up" pressed
+            //move bomb up with balloon when "w" or "arrow up" pressed
             if (keys[38] || keys[87])
             {
                 oneBomb.velY--;
             }
-            //if "s" or "arrow down" pressed
+            //move bomb up with balloon when "s" or "arrow down" pressed
             if (keys[40] || keys[83])
             {
                 oneBomb.velY += 3;
             }
-            //if "a" or "arrow left" pressed
+            //move bomb up with balloon when "a" or "arrow left" pressed
             if (keys[37] || keys[65])
             {
                 oneBomb.velX -= 2;
             }
-            //if "d" or "arrow right" pressed
+            //move bomb up with balloon when "d" or "arrow right" pressed
             if (keys[39] || keys[68])
             {
                 oneBomb.velX++;
