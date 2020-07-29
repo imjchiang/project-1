@@ -11,17 +11,20 @@ let ctxBackground;
 let game;
 let ctx;
 
-//for object creation
+//for player object creation
 let player;
 let balloonGround = 155;
 
+//for bunker object creation
 let manyBunkers = [];
 let numBunkers;
 let bunkerRandomY = [];
 let bunkerRandomX = [];
 let bunkerXSize = 100;
 let bunkerYSize = 50;
+let bunkerRadius = 40;
 
+//for gunner object creation
 let manyGunners = [];
 let numGunners;
 let gunnerRandomY = [];
@@ -29,12 +32,16 @@ let gunnerRandomX = [];
 let gunnerXSize = 34;
 let gunnerYSize = 30;
 
+//for gunner ammo object creation
 let numGunnerAmmo;
 let gunnerAmmo = [];
 
+//for player ammo object creation
 let numBalloonAmmo;
 let balloonAmmo = [];
 let bombIndex = 0;
+let bombSize = 15;
+let bombRadius = 7;
 
 //for background image scrolling
 let backgroundImage = document.createElement("img");
@@ -54,6 +61,11 @@ let bunkerImage = document.createElement("img");
 bunkerImage.setAttribute("id", "bunker-img");
 bunkerImage.setAttribute("src", "bunker-on-hill.png");
 
+//for dead bunker image
+let deadBunkerImage = document.createElement("img");
+bunkerImage.setAttribute("id", "bunker-img");
+//bunkerImage.setAttribute("src", "bunker-on-hill.png");
+
 //for turret image
 let turretImage = document.createElement("img");
 turretImage.setAttribute("id", "turret-img");
@@ -63,6 +75,9 @@ turretImage.setAttribute("src", "green-turret.png");
 let bombImage = document.createElement("img");
 bombImage.setAttribute("id", "bomb-img");
 bombImage.setAttribute("src", "balloon-bomb.png");
+
+//for exploded bomb image
+let explodedBombImage;
 
 //store key press events
 let keys = [];
@@ -228,7 +243,7 @@ function Ammo(x, y, angle, fired, speed)
     this.angle = angle;
     this.fired = fired;
     this.speed = speed;
-    //this.speed = speed;
+    this.exploded = false;
 
     //movement
     this.velX = 0;
@@ -367,16 +382,19 @@ function playGame()
     //run loop for background and moving objects
     startLoop();
     
+    //check collision with bomb
+    bombHit();
+
     //render alive bunkers
     renderBunkers();
     //render gunners
     renderGunners();
-    //check collision with bomb
     
-    //render the player
+    //render the player and move player
     player.render();
     player.move();
 
+    //render bombs and move them
     renderBombs();
     moveBombs();
 }
@@ -440,15 +458,17 @@ function renderBunkers()
             //draw the bunker
             ctx.drawImage(bunkerImage, oneBunker.x, oneBunker.y, bunkerXSize, bunkerYSize);
             
-            //bunker as half circle
-            //hitbox for bunker??
-            /*
-            ctx.beginPath();
-            ctx.fillStyle = "black";
-            ctx.arc(oneBunker.x, oneBunker.y, 40, Math.PI, 0);
-            ctx.closePath();
-            ctx.fill();    
-            */
+            //help determine hitbox for bunker
+            // ctx.beginPath();
+            // ctx.fillStyle = "black";
+            // ctx.arc(oneBunker.x + bunkerXSize / 2 + 4, oneBunker.y + bunkerYSize - 6, bunkerRadius, Math.PI, 0);
+            // ctx.closePath();
+            // ctx.fill();    
+            
+        }
+        else
+        {
+            ctx.drawImage(deadBunkerImage, oneBunker.x, oneBunker.y, bunkerXSize, bunkerYSize);
         }
     });
 }
@@ -661,11 +681,23 @@ function renderBombs()
     //for each bomb
     balloonAmmo.forEach(oneBomb =>
     {
+        //if bomb has exploded
+        if (oneBomb.exploded)
+        {
+            ctx.drawImage(explodedBombImage, oneBomb.x, oneBomb.y, bombSize, bombSize);  
+        }
         //if bomb has been fired
-        if (oneBomb.fired)
+        else if (oneBomb.fired)
         {
             //draw the bomb
-            ctx.drawImage(bombImage, oneBomb.x, oneBomb.y, 15, 15);    
+            ctx.drawImage(bombImage, oneBomb.x, oneBomb.y, bombSize, bombSize);
+            
+            //help determine hitbox for bombs
+            // ctx.beginPath();
+            // ctx.fillStyle = "black";
+            // ctx.arc(oneBomb.x + bombSize / 2, oneBomb.y + bombSize - 6, bombRadius, 2 * Math.PI, 0);
+            // ctx.closePath();
+            // ctx.fill();
         }
     });
 }
@@ -753,6 +785,34 @@ function bombFired()
     {
         console.log("You are out of bombs!!");
     }
+}
+
+function bombHit()
+{
+    //for each bomb
+    balloonAmmo.forEach(oneBomb =>
+    {
+        //for each bunker
+        manyBunkers.forEach(oneBunker =>
+        {
+            //difference in x between bunker circle and bomb circle
+            let dx = (oneBunker.x + bunkerXSize / 2 + 4) - (oneBomb.x + bombSize / 2 + 4);
+            //difference in y between bunker circle and bomb circle
+            let dy = (oneBunker.y + bunkerYSize - 6) - (oneBomb.y + bombSize - 6);
+            //distance between two objects
+            let distance = Math.sqrt((dx * dx) + (dy * dy));
+
+            if (distance <= bunkerRadius + bombRadius)
+            {
+                console.log("EXPLOSION");
+                //bomb explosion
+                //bunker explosion
+                //bomb image gone
+                //bunker alive false
+                oneBunker.alive = false;
+            }
+        });
+    });
 }
 
 //SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
