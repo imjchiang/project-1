@@ -77,7 +77,9 @@ bombImage.setAttribute("id", "bomb-img");
 bombImage.setAttribute("src", "balloon-bomb.png");
 
 //for exploded bomb image
-let explodedBombImage;
+let explodedBombImage = document.createElement("img");
+bombImage.setAttribute("id", "bomb-img");
+//bombImage.setAttribute("src", "balloon-bomb.png");
 
 //store key press events
 let keys = [];
@@ -808,6 +810,7 @@ function bombHit()
                 //bomb explosion
                 //bunker explosion
                 //bomb image gone
+                oneBomb.exploded = true;
                 //bunker alive false
                 oneBunker.alive = false;
             }
