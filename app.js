@@ -33,10 +33,10 @@ let gunnerXSize = 34;
 let gunnerYSize = 30;
 
 //for gunner ammo object creation
-let numGunnerAmmo = 30;
+let numGunnerAmmo = 10;
 let gunnerAmmo = [];
-let bulletXSize = 15;
-let bulletYSize = 15;
+let bulletXSize = 10;
+let bulletYSize = 10;
 
 //for player ammo object creation
 let numBalloonAmmo;
@@ -133,7 +133,7 @@ class Balloon
         //if "w" or "arrow up" pressed
         if (keys[38] || keys[87])
         {
-            this.velY--;
+            this.velY -= 1.5;
         }
         //if "s" or "arrow down" pressed
         if (keys[40] || keys[83])
@@ -148,7 +148,7 @@ class Balloon
         //if "d" or "arrow right" pressed
         if (keys[39] || keys[68])
         {
-            this.velX++;
+            this.velX += 1.5;
         }
 
         //decceleration based on drag coefficient
@@ -366,16 +366,19 @@ function loopElements()
             //for each bullet
             gunnerAmmo[i].forEach(eachBullet =>
             {
-                //move it at scroll speed
-                eachBullet.x += scrollSpeed;
-                if (eachBullet.x <= WIDTH)
+                if (eachBullet !== undefined)
                 {
-                    eachBullet.countdown--;
-                }
-                if (eachBullet.fired)
-                {
+                    //move it at scroll speed
                     eachBullet.x += scrollSpeed;
-                    eachBullet.y += scrollSpeed;
+                    if (eachBullet.x <= WIDTH * 2)
+                    {
+                        eachBullet.countdown--;
+                    }
+                    if (eachBullet.fired)
+                    {
+                        eachBullet.x += scrollSpeed;
+                        eachBullet.y += scrollSpeed;
+                    }
                 }
             });
         }
@@ -407,6 +410,8 @@ function playGame()
     //clear the canvas
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     
+    
+
     //run loop for background and moving objects
     startLoop();
     
@@ -421,10 +426,8 @@ function playGame()
     //render gunners
     renderGunners();
     
-    //console.log("we are not in loop");
     //render bullets
     renderBullets();
-    //console.log("we are in loop");
 
     //render the player and move player
     player.render();
@@ -758,7 +761,7 @@ function moveBombs()
             //move bomb up with balloon when "w" or "arrow up" pressed
             if (keys[38] || keys[87])
             {
-                oneBomb.velY--;
+                oneBomb.velY -= 1.5;
             }
             //move bomb up with balloon when "s" or "arrow down" pressed
             if (keys[40] || keys[83])
@@ -773,7 +776,7 @@ function moveBombs()
             //move bomb up with balloon when "d" or "arrow right" pressed
             if (keys[39] || keys[68])
             {
-                oneBomb.velX++;
+                oneBomb.velX += 1.5;
             }
 
             //decceleration based on drag coefficient
@@ -860,7 +863,7 @@ function createBullets()
         for (let i = 0; i < numGunnerAmmo; i++)
         {
             let bullet = new Ammo(manyGunners[g].x, manyGunners[g].y, 135, false, 1);
-            bullet.countdown = 10; //Math.floor(Math.random());
+            bullet.countdown = 50 * i; //Math.floor(Math.random());
             eachGunner.push(bullet);
             console.log("gunner: " + g + "has " + i + " bullet");
         }
@@ -873,15 +876,29 @@ function renderBullets()
     //for each bullet
     for (let i = 0; i < gunnerAmmo.length; i++)
     {
-        if (gunnerAmmo[i][0].x <= WIDTH)
+        // if (gunnerAmmo[i][0].x <= WIDTH)
+        // {
+        //     for (let j = 0; j < gunnerAmmo[i].length; j++)
+        //     {
+        //         let eachBullet = gunnerAmmo[i][j];
+        //         setInterval(shootBullet, 1000 * j, eachBullet);
+        //         console.log("Firing string of bullets: " + i + "bullet: " + j);
+        //     }
+        // }
+        for (let j = gunnerAmmo[i].length - 1; j >= 0; j--)
         {
-            for (let j = 0; j < gunnerAmmo[i].length; j++)
+            let eachBullet = gunnerAmmo[i][j];
+            if (eachBullet.x >= 0 || eachBullet.y >= 0)
             {
-                let eachBullet = gunnerAmmo[i][j];
-                setInterval(shootBullet, 1000 * j, eachBullet);
-                console.log("Firing string of bullets: " + i);
+                if (eachBullet.x <= WIDTH * 1.5 && eachBullet.countdown <= -30)
+                {
+                    ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+                    eachBullet.fired = true;
+                    console.log("Firing string of bullets: " + i + "bullet: " + j);
+                }
             }
         }
+        
         // gunnerAmmo[i].forEach(eachBullet =>
         // {
         //     if (eachBullet !== undefined)
@@ -894,19 +911,14 @@ function renderBullets()
         //         else if (eachBullet.countdown <= 0 && eachBullet.x <= WIDTH)
         //         {
         //             console.log("FIRE!!" + i);
-        //             eachBullet.fired = true;
+        
         //             ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+        //             eachBullet.fired = true;
         //             console.log("fire");
         //         }
         //     }
         // });
     }
-}
-
-function shootBullet(eachBullet)
-{
-    ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
-    eachBullet.fired = true;
 }
 
 function bulletHit()
@@ -968,7 +980,7 @@ document.addEventListener("DOMContentLoaded", function()
     //checkGameConditions();
 
     numBunkers = 10;
-    numGunners = 15;
+    numGunners = 90;
     //create bunkers
     createBunkers();
     //create gunners
@@ -984,5 +996,5 @@ document.addEventListener("DOMContentLoaded", function()
     //document.addEventListener("keydown", player.move);
 
     //RUN GAME
-    let runGame = setInterval(playGame, 40);    //change number for better fps, need to account for speed of game though (45)
+    let runGame = setInterval(playGame, 45);    //change number for better fps, need to account for speed of game though (45)
 })
