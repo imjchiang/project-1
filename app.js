@@ -372,7 +372,7 @@ function playGame()
     //render gunners
     renderGunners();
     //check collision with bomb
-    bombFired();
+    
     //render the player
     player.render();
     player.move();
@@ -480,7 +480,7 @@ function createGunners()
         for (let b = 0; b < numBunkers; b++)
         {
             //if there is no gunner in the array we are accessing
-            if (bunkerRandomX[b] === null || bunkerRandomY[b] === null)
+            if (bunkerRandomX[b] === null || bunkerRandomY[b] === null || bunkerRandomX[b] === undefined || bunkerRandomY[b] === undefined)
             {
                 //return the error statement
                 console.log("ERROR: NULL BUNKER DATA");
@@ -682,6 +682,7 @@ function moveBombs()
             //move bomb down according to gravity
             oneBomb.y += 0.98 * oneBomb.speed;
             oneBomb.speed++;
+            //console.log(bombIndex);
         }
         //if bomb hasn't been fired
         else
@@ -743,11 +744,14 @@ function moveBombs()
 function bombFired()
 {
     let oneBomb = balloonAmmo[bombIndex];
-    //if "w" or "arrow up" pressed
-    if (keys[32])
+    if (oneBomb !== undefined && oneBomb !== null)
     {
         oneBomb.fired = true;
         bombIndex++;
+    }
+    else
+    {
+        console.log("You are out of bombs!!");
     }
 }
 
@@ -763,6 +767,10 @@ document.addEventListener("DOMContentLoaded", function()
     document.addEventListener("keyup", function (e) 
     {
         keys[e.keyCode] = false;
+        if (e.keyCode === 32)
+        {
+            bombFired();
+        }
     });
 
     //DOM REFERECES
