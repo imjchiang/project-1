@@ -35,6 +35,8 @@ let gunnerYSize = 30;
 //for gunner ammo object creation
 let numGunnerAmmo;
 let gunnerAmmo = [];
+let bulletXSize = 15;
+let bulletYSize = 15;
 
 //for player ammo object creation
 let numBalloonAmmo;
@@ -81,6 +83,16 @@ let explodedBombImage = document.createElement("img");
 bombImage.setAttribute("id", "bomb-img");
 //bombImage.setAttribute("src", "balloon-bomb.png");
 
+//for bullet image
+let bulletImage = document.createElement("img");
+bulletImage.setAttribute("id", "bullet-img");
+bulletImage.setAttribute("src", "bullet.png");
+
+//for no bullet image
+let noBulletImage = document.createElement("img");
+noBulletImage.setAttribute("id", "bullet-img");
+//noBulletImage.setAttribute("src", "bullet.png");
+
 //store key press events
 let keys = [];
 
@@ -108,7 +120,6 @@ class Balloon
         //movement
         this.velX = 0;
         this.velY = 0;
-        this.velocity = 120;
         this.drag = 0.85;
     }
 
@@ -246,11 +257,11 @@ function Ammo(x, y, angle, fired, speed)
     this.fired = fired;
     this.speed = speed;
     this.exploded = false;
+    this.countdown;
 
     //movement
     this.velX = 0;
     this.velY = 0;
-    this.velocity = 120;
     this.drag = 0.85;
 }
 
@@ -349,11 +360,26 @@ function loopElements()
 
     //ammo movement
     {
-        gunnerAmmo.forEach(oneAmmo =>
+        //for each array of bullets
+        for (let i = 0; i < gunnerAmmo.length; i++)
         {
-            //move it at scroll speed
-            oneAmmo.x += scrollSpeed;
-        })
+            //for each bullet
+            gunnerAmmo[i].forEach(eachBullet =>
+            {
+                //move it at scroll speed
+                eachBullet.x += scrollSpeed;
+                if (eachBullet.x <= WIDTH)
+                {
+                    eachBullet.countdown--;
+                }
+                if (eachBullet.fired)
+                {
+                    eachBullet.x += scrollSpeed;
+                    eachBullet.y += scrollSpeed;
+                }
+            });
+        }
+        //for each bomb
         balloonAmmo.forEach(oneAmmo =>
         {
             //if bomb has been fired
@@ -395,6 +421,9 @@ function playGame()
     //render gunners
     renderGunners();
     
+    //render bullets
+    renderBullets();
+
     //render the player and move player
     player.render();
     player.move();
@@ -831,6 +860,7 @@ function createBullets()
         for (let i = 0; i < numGunnerAmmo; i++)
         {
             let bullet = new Ammo(manyGunners[g].x, manyGunners[g].y, 135, false, 1);
+            bullet.countdown = Math.floor(Math.random());
             eachGunner.push(bullet);
         }
         gunnerAmmo.push(eachGunner);
@@ -839,12 +869,36 @@ function createBullets()
 
 function renderBullets()
 {
-
+    //for each bullet
+    for (let i = 0; i < gunnerAmmo.length; i++)
+    {
+        gunnerAmmo[i].forEach(eachBullet =>
+        {
+            if (eachBullet.exploded)
+            {
+                ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+            }
+            else if (eachBullet.countdown <= 0 && eachBullet.x <= WIDTH * 1.3)
+            {
+                eachBullet.fired = true;
+                ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+            }
+        });
+    }
 }
 
 function bulletHit()
 {
-
+    for (let i = 0; i < gunnerAmmo.length; i++)
+    {
+        gunnerAmmo[i].forEach(eachBullet =>
+        {
+            if (eachBullet.exploded)
+            {
+                console.log("BULLET HIT!");
+            }
+        });
+    }
 }
 
 
@@ -886,20 +940,20 @@ document.addEventListener("DOMContentLoaded", function()
     //create bombs for player
     numBalloonAmmo = 10;
     createBombs();
-
-
-        //create array of ammo for gunners
     
     //button click listener?
     //difficulty = "medium";
     //checkGameConditions();
 
     numBunkers = 10;
-    numGunners = 90;
+    numGunners = 15;
     //create bunkers
     createBunkers();
     //create gunners
     createGunners();
+
+    //create array of ammo for gunners
+    createBullets();
 
     //if time allows for it, create rockets (ammo) that comes out of bunker occasionally
 
