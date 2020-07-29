@@ -33,7 +33,7 @@ let gunnerXSize = 34;
 let gunnerYSize = 30;
 
 //for gunner ammo object creation
-let numGunnerAmmo;
+let numGunnerAmmo = 30;
 let gunnerAmmo = [];
 let bulletXSize = 15;
 let bulletYSize = 15;
@@ -403,7 +403,7 @@ function startLoop()
 //run game 
 function playGame()
 {
-    console.log("looping yeeet");
+    //console.log("looping yeeet");
     //clear the canvas
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     
@@ -421,8 +421,10 @@ function playGame()
     //render gunners
     renderGunners();
     
+    //console.log("we are not in loop");
     //render bullets
     renderBullets();
+    //console.log("we are in loop");
 
     //render the player and move player
     player.render();
@@ -854,14 +856,13 @@ function createBullets()
 {
     for (let g = 0; g < numGunners; g++)
     {
-        numGunnerAmmo = Math.floor(Math.random() * 30) + 10;
-        gunnerAmmo = [];
         let eachGunner = [];
         for (let i = 0; i < numGunnerAmmo; i++)
         {
             let bullet = new Ammo(manyGunners[g].x, manyGunners[g].y, 135, false, 1);
-            bullet.countdown = Math.floor(Math.random());
+            bullet.countdown = 10; //Math.floor(Math.random());
             eachGunner.push(bullet);
+            console.log("gunner: " + g + "has " + i + " bullet");
         }
         gunnerAmmo.push(eachGunner);
     }
@@ -872,19 +873,40 @@ function renderBullets()
     //for each bullet
     for (let i = 0; i < gunnerAmmo.length; i++)
     {
-        gunnerAmmo[i].forEach(eachBullet =>
+        if (gunnerAmmo[i][0].x <= WIDTH)
         {
-            if (eachBullet.exploded)
+            for (let j = 0; j < gunnerAmmo[i].length; j++)
             {
-                ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+                let eachBullet = gunnerAmmo[i][j];
+                setInterval(shootBullet, 1000 * j, eachBullet);
+                console.log("Firing string of bullets: " + i);
             }
-            else if (eachBullet.countdown <= 0 && eachBullet.x <= WIDTH * 1.3)
-            {
-                eachBullet.fired = true;
-                ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
-            }
-        });
+        }
+        // gunnerAmmo[i].forEach(eachBullet =>
+        // {
+        //     if (eachBullet !== undefined)
+        //     {
+        //         console.log(eachBullet.countdown);
+        //         if (eachBullet.exploded)
+        //         {
+        //             ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+        //         }
+        //         else if (eachBullet.countdown <= 0 && eachBullet.x <= WIDTH)
+        //         {
+        //             console.log("FIRE!!" + i);
+        //             eachBullet.fired = true;
+        //             ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+        //             console.log("fire");
+        //         }
+        //     }
+        // });
     }
+}
+
+function shootBullet(eachBullet)
+{
+    ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+    eachBullet.fired = true;
 }
 
 function bulletHit()
