@@ -54,7 +54,7 @@ let scrollSpeed = -5;
 //for balloon image
 let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
-balloonImage.setAttribute("src", "8bit-balloon-2.png");
+balloonImage.setAttribute("src", "8bit-balloon.png");
 
 //for bunker image
 let bunkerImage = document.createElement("img");
@@ -878,5 +878,5 @@ document.addEventListener("DOMContentLoaded", function()
     //document.addEventListener("keydown", player.move);
 
     //RUN GAME
-    let runGame = setInterval(playGame, 45);    //change number for better fps, need to account for speed of game though (45)
+    let runGame = setInterval(playGame, 40);    //change number for better fps, need to account for speed of game though (45)
 })
