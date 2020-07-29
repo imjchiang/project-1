@@ -387,6 +387,9 @@ function playGame()
     //check collision with bomb
     bombHit();
 
+    //check collision with bullet
+    bulletHit();
+
     //render alive bunkers
     renderBunkers();
     //render gunners
@@ -817,6 +820,33 @@ function bombHit()
         });
     });
 }
+
+function createBullets()
+{
+    for (let g = 0; g < numGunners; g++)
+    {
+        numGunnerAmmo = Math.floor(Math.random() * 30) + 10;
+        gunnerAmmo = [];
+        let eachGunner = [];
+        for (let i = 0; i < numGunnerAmmo; i++)
+        {
+            let bullet = new Ammo(manyGunners[g].x, manyGunners[g].y, 135, false, 1);
+            eachGunner.push(bullet);
+        }
+        gunnerAmmo.push(eachGunner);
+    }
+}
+
+function renderBullets()
+{
+
+}
+
+function bulletHit()
+{
+
+}
+
 
 //SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function() 
