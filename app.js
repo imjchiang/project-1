@@ -34,6 +34,7 @@ let gunnerAmmo = [];
 
 let numBalloonAmmo;
 let balloonAmmo = [];
+let bombIndex = 0;
 
 //for background image scrolling
 let backgroundImage = document.createElement("img");
@@ -228,6 +229,12 @@ function Ammo(x, y, angle, fired, speed)
     this.fired = fired;
     this.speed = speed;
     //this.speed = speed;
+
+    //movement
+    this.velX = 0;
+    this.velY = 0;
+    this.velocity = 120;
+    this.drag = 0.85;
 }
 
 
@@ -365,7 +372,7 @@ function playGame()
     //render gunners
     renderGunners();
     //check collision with bomb
-    
+    bombFired();
     //render the player
     player.render();
     player.move();
@@ -676,13 +683,71 @@ function moveBombs()
             oneBomb.y += 0.98 * oneBomb.speed;
             oneBomb.speed++;
         }
+        else
+        {
+            //if "w" or "arrow up" pressed
+            if (keys[38] || keys[87])
+            {
+                oneBomb.velY--;
+            }
+            //if "s" or "arrow down" pressed
+            if (keys[40] || keys[83])
+            {
+                oneBomb.velY += 3;
+            }
+            //if "a" or "arrow left" pressed
+            if (keys[37] || keys[65])
+            {
+                oneBomb.velX -= 2;
+            }
+            //if "d" or "arrow right" pressed
+            if (keys[39] || keys[68])
+            {
+                oneBomb.velX++;
+            }
+
+            //decceleration based on drag coefficient
+            oneBomb.velX *= oneBomb.drag;
+            oneBomb.velY *= oneBomb.drag;
+
+            //position change based on velocity change
+            oneBomb.x += oneBomb.velX;
+            oneBomb.y += oneBomb.velY;
+
+            //in bounds x axis
+            if (oneBomb.x > WIDTH - 70)
+            {
+                oneBomb.x = WIDTH - 70;
+            }
+            else if (oneBomb.x < 0)
+            {
+                oneBomb.x = 0;
+            }
+
+            //in bounds y axis
+            if (oneBomb.y > HEIGHT - balloonGround - 120)
+            {
+                oneBomb.y = HEIGHT - balloonGround - 120;
+                oneBomb.hitGround++;
+            }
+            else if (oneBomb.y < 0)
+            {
+                oneBomb.y = 0;
+            }
+        }
     })
 }
 
 //sets bomb fired to true
 function bombFired()
 {
-    
+    let oneBomb = balloonAmmo[bombIndex];
+    //if "w" or "arrow up" pressed
+    if (keys[32])
+    {
+        oneBomb.fired = true;
+        bombIndex++;
+    }
 }
 
 //SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
