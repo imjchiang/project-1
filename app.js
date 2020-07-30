@@ -51,7 +51,7 @@ let bombRadius = 7;
 //for background image scrolling
 let backgroundImage = document.createElement("img");
 backgroundImage.setAttribute("id", "background-img");
-backgroundImage.setAttribute("src", "8bit-background.jpg");
+backgroundImage.setAttribute("src", "pictures/background/8bit-background.jpg");
 let backgroundXPos = 0;
 let scrollSpeed = -5;
 let tempScroll = scrollSpeed;
@@ -60,46 +60,46 @@ let tempScroll = scrollSpeed;
 //for balloon image
 let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
-balloonImage.setAttribute("src", "8bit-balloon.png");
+balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon.png");
 
 
 //for bunker image
 let bunkerImage = document.createElement("img");
 bunkerImage.setAttribute("id", "bunker-img");
-bunkerImage.setAttribute("src", "bunker-on-hill.png");
+bunkerImage.setAttribute("src", "pictures/enemies/bunker-on-hill.png");
 //for dead bunker image
 let deadBunkerImage = document.createElement("img");
 bunkerImage.setAttribute("id", "bunker-img");
-//bunkerImage.setAttribute("src", "bunker-on-hill.png");
+//bunkerImage.setAttribute("src", "pictures/enemies/bunker-on-hill.png");
 
 
 //for turret image
 let turretImage = document.createElement("img");
 turretImage.setAttribute("id", "turret-img");
-turretImage.setAttribute("src", "green-turret.png");
+turretImage.setAttribute("src", "pictures/enemies/green-turret.png");
 //for dead turret image
 let noTurretImage = document.createElement("img");
 noTurretImage.setAttribute("id", "turret-img");
-//noTurretImage.setAttribute("src", "green-turret.png");
+//noTurretImage.setAttribute("src", "pictures/enemies/green-turret.png");
 
 
 //for bomb image
 let bombImage = document.createElement("img");
 bombImage.setAttribute("id", "bomb-img");
-bombImage.setAttribute("src", "balloon-bomb.png");
+bombImage.setAttribute("src", "pictures/ammo/balloon-bomb.png");
 //for exploded bomb image
 let explodedBombImage = document.createElement("img");
 bombImage.setAttribute("id", "bomb-img");
-//bombImage.setAttribute("src", "balloon-bomb.png");
+//bombImage.setAttribute("src", "pictures/ammo/balloon-bomb.png");
 
 //for bullet image
 let bulletImage = document.createElement("img");
 bulletImage.setAttribute("id", "bullet-img");
-bulletImage.setAttribute("src", "bullet.png");
+bulletImage.setAttribute("src", "pictures/ammo/bullet.png");
 //for no bullet image
 let noBulletImage = document.createElement("img");
 noBulletImage.setAttribute("id", "bullet-img");
-//noBulletImage.setAttribute("src", "bullet.png");
+//noBulletImage.setAttribute("src", "pictures/ammo/bullet.png");
 
 //store key press events
 let keys = [];
@@ -207,21 +207,21 @@ class Balloon
             ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
             if (player.weAreHit === 1)
             {
-                balloonImage.setAttribute("src", "8bit-balloon-oneshot.png");
+                balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon-oneshot.png");
             }
             else if (player.weAreHit === 2)
             {
-                balloonImage.setAttribute("src", "8bit-balloon-twoshot.png");
+                balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon-twoshot.png");
             }
             else if (player.weAreHit === 3)
             {
-                balloonImage.setAttribute("src", "8bit-balloon-shot.png");
+                balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon-shot.png");
             }
             
         }
         else
         {
-            balloonImage.setAttribute("src", "8bit-balloon-shot.png");
+            balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon-shot.png");
             ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
             keys = null;
         }
