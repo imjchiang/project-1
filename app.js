@@ -191,13 +191,50 @@ class Balloon
         ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
         
         //help with hitbox for balloon
-        //circle portion of hitbox
+        //main circle portion of hitbox
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment, hitboxRadius, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
+
+        //triangle replacement circle 1 portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment + 20, hitboxRadius * 0.70, 2 * Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        //triangle replacement circle 2 portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment + 35, hitboxRadius * 0.47, 2 * Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+        
+        //triangle replacement circle 3 portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment + 45, hitboxRadius * 0.35, 2 * Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        //triangle replacement circle 4 portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment + 55, hitboxRadius * 0.22, 2 * Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        //triangle replacement circle 5 portion of hitbox
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment + 60, hitboxRadius * 0.17, 2 * Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+
         //main triangle portion of hitbox
+        /*
         ctx.beginPath();
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.moveTo(this.xPos, (this.yPos + (hitboxRadius * 1.2)));
@@ -213,15 +250,17 @@ class Balloon
         ctx.lineTo((this.xPos + (xAlignment * 1.53)), (this.yPos + (hitboxRadius * 2)));
         ctx.closePath();
         ctx.fill();
+        */
+
         //upper bottom half circle
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.arc(this.xPos + xAlignment, this.yPos + 105, 8, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
         //lower bottom half circle
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.arc(this.xPos + xAlignment, this.yPos + 111, 9, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
@@ -927,27 +966,91 @@ function bulletHit()
             }
 
 
-            //main triangle portion of hitbox
+            //triangle replacement circle 1 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx1 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy1 = (player.yPos + yAlignment + 20) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance1 = Math.sqrt((dx1 * dx1) + (dy1 * dy1));
+            //if collision
+            if (distance1 < hitboxRadius * 0.70 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 1 BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
+            }
+
+            //triangle replacement circle 2 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx2 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy2 = (player.yPos + yAlignment + 35) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance2 = Math.sqrt((dx2 * dx2) + (dy2 * dy2));
+            //if collision
+            if (distance2 < hitboxRadius * 0.47 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 2 BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
+            }
             
-            ctx.moveTo(this.xPos, (this.yPos + (hitboxRadius * 1.2)));
-            ctx.lineTo((this.xPos + xAlignment), (this.yPos + 100));
-            ctx.lineTo((this.xPos + (xAlignment * 2)), (this.yPos + (hitboxRadius * 1.2)));
-            
-            //secondary triangle portion of hitbox
-            
-            ctx.moveTo((this.xPos + (hitboxRadius * 0.48)), (this.yPos + (hitboxRadius * 2)));
-            ctx.lineTo((this.xPos + (xAlignment * 1)), (this.yPos + 107));
-            ctx.lineTo((this.xPos + (xAlignment * 1.53)), (this.yPos + (hitboxRadius * 2)));
+            //triangle replacement circle 3 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx3 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy3 = (player.yPos + yAlignment + 45) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance3 = Math.sqrt((dx3 * dx3) + (dy3 * dy3));
+            //if collision
+            if (distance3 < hitboxRadius * 0.35 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 3 BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
+            }
+
+            //triangle replacement circle 4 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx4 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy4 = (player.yPos + yAlignment + 55) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance4 = Math.sqrt((dx4 * dx4) + (dy4 * dy4));
+            //if collision
+            if (distance4 < hitboxRadius * 0.22 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 4 BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
+            }
+
+            //triangle replacement circle 5 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx5 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy5 = (player.yPos + yAlignment + 60) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance5 = Math.sqrt((dx5 * dx5) + (dy5 * dy5));
+            //if collision
+            if (distance5 < hitboxRadius * 0.17 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 5 BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
+            }
+
             
             //upper bottom circle portion of hitbox
             //difference in x between upper bottom balloon circle and bullet circle
-            let dx4 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            let dx6 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
             //difference in y between upper bottom balloon circle and bullet circle
-            let dy4 = (player.yPos + 105) - (eachBullet.y + bulletYSize / 2);
+            let dy6 = (player.yPos + 105) - (eachBullet.y + bulletYSize / 2);
             //distance between upper bottom balloon circle and bullet
-            let distance4 = Math.sqrt((dx4 * dx4) + (dy4 * dy4));
+            let distance6 = Math.sqrt((dx6 * dx6) + (dy6 * dy6));
             //if collision
-            if (distance4 < 8 + bulletXSize / 2)
+            if (distance6 < 8 + bulletXSize / 2)
             {
                 console.log("UPPER BOTTOM BULLET HIT!");
                 player.alive = false;
@@ -956,13 +1059,13 @@ function bulletHit()
 
             //lower bottom circle portion of hitbox
             //difference in x between lower bottom balloon circle and bullet circle
-            let dx5 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            let dx7 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
             //difference in y between lower bottom balloon circle and bullet circle
-            let dy5 = (player.yPos + 111) - (eachBullet.y + bulletYSize / 2);
+            let dy7 = (player.yPos + 111) - (eachBullet.y + bulletYSize / 2);
             //distance between lower bottom balloon circle and bullet
-            let distance5 = Math.sqrt((dx5 * dx5) + (dy5 * dy5));
+            let distance7 = Math.sqrt((dx7 * dx7) + (dy7 * dy7));
             //if collision
-            if (distance5 < 9 + bulletXSize / 2)
+            if (distance7 < 9 + bulletXSize / 2)
             {
                 console.log("LOWER BOTTOM BULLET HIT!");
                 player.alive = false;
