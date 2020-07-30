@@ -56,6 +56,7 @@ let backgroundXPos = 0;
 let scrollSpeed = -5;
 let tempScroll = scrollSpeed;
 
+
 //for balloon image
 let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
@@ -66,22 +67,26 @@ balloonImage.setAttribute("src", "8bit-balloon.png");
 let bunkerImage = document.createElement("img");
 bunkerImage.setAttribute("id", "bunker-img");
 bunkerImage.setAttribute("src", "bunker-on-hill.png");
-
 //for dead bunker image
 let deadBunkerImage = document.createElement("img");
 bunkerImage.setAttribute("id", "bunker-img");
 //bunkerImage.setAttribute("src", "bunker-on-hill.png");
 
+
 //for turret image
 let turretImage = document.createElement("img");
 turretImage.setAttribute("id", "turret-img");
 turretImage.setAttribute("src", "green-turret.png");
+//for dead turret image
+let noTurretImage = document.createElement("img");
+noTurretImage.setAttribute("id", "turret-img");
+//noTurretImage.setAttribute("src", "green-turret.png");
+
 
 //for bomb image
 let bombImage = document.createElement("img");
 bombImage.setAttribute("id", "bomb-img");
 bombImage.setAttribute("src", "balloon-bomb.png");
-
 //for exploded bomb image
 let explodedBombImage = document.createElement("img");
 bombImage.setAttribute("id", "bomb-img");
@@ -91,7 +96,6 @@ bombImage.setAttribute("id", "bomb-img");
 let bulletImage = document.createElement("img");
 bulletImage.setAttribute("id", "bullet-img");
 bulletImage.setAttribute("src", "bullet.png");
-
 //for no bullet image
 let noBulletImage = document.createElement("img");
 noBulletImage.setAttribute("id", "bullet-img");
@@ -102,6 +106,7 @@ let keys = [];
 
 //difficulty variables
 let difficulty = "";
+let winCondition;
 
 
 
@@ -136,25 +141,28 @@ class Balloon
     //velocity change differs based on direction (down and back faster)
     move()
     {
-        //if "w" or "arrow up" pressed
-        if (keys[38] || keys[87])
+        if (keys !== null)
         {
-            this.velY -= 1.5;
-        }
-        //if "s" or "arrow down" pressed
-        if (keys[40] || keys[83])
-        {
-            this.velY += 3;
-        }
-        //if "a" or "arrow left" pressed
-        if (keys[37] || keys[65])
-        {
-            this.velX -= 2;
-        }
-        //if "d" or "arrow right" pressed
-        if (keys[39] || keys[68])
-        {
-            this.velX += 1.5;
+            //if "w" or "arrow up" pressed
+            if (keys[38] || keys[87])
+            {
+                this.velY -= 1.5;
+            }
+            //if "s" or "arrow down" pressed
+            if (keys[40] || keys[83])
+            {
+                this.velY += 3;
+            }
+            //if "a" or "arrow left" pressed
+            if (keys[37] || keys[65])
+            {
+                this.velX -= 2;
+            }
+            //if "d" or "arrow right" pressed
+            if (keys[39] || keys[68])
+            {
+                this.velX += 1.5;
+            }
         }
 
         //decceleration based on drag coefficient
@@ -165,14 +173,17 @@ class Balloon
         this.xPos += this.velX;
         this.yPos += this.velY;
 
-        //in bounds x axis
-        if (this.xPos > WIDTH - 70)
+        if (winCondition === undefined || winCondition === true)
         {
-            this.xPos = WIDTH - 70;
-        }
-        else if (this.xPos < 0)
-        {
-            this.xPos = 0;
+            //in bounds x axis
+            if (this.xPos > WIDTH - 70)
+            {
+                this.xPos = WIDTH - 70;
+            }
+            else if (this.xPos < 0)
+            {
+                this.xPos = 0;
+            }
         }
 
         //in bounds y axis
@@ -365,8 +376,8 @@ function loopElements()
                     }
                     if (!player.alive)
                     {
-                        eachBullet.x += tempScroll;
-                        eachBullet.y += tempScroll;
+                        eachBullet.x += tempScroll - scrollSpeed;
+                        eachBullet.y += tempScroll - scrollSpeed;
                     }
                 }
             });
@@ -431,6 +442,8 @@ function playGame()
     //render the player and move player
     player.render();
     player.move();
+
+    gameOver();
 
     //check collision with bullet
     bulletHit();
@@ -664,8 +677,24 @@ function renderGunners()
     //for each bunker
     manyGunners.forEach(oneGunner =>
     {
-        //draw the gunner
-        ctx.drawImage(turretImage, oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+        if (winCondition)
+        {
+            if (oneGunner.x >= -gunnerXSize && oneGunner.y >= 0 && oneGunner.x <= WIDTH * 2 && oneGunner.y <= HEIGHT)
+            {
+                ctx.drawImage(turretImage, oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+            }
+            else
+            {
+                oneGunner.x = -50;
+                oneGunner.y = -50;
+                ctx.drawImage(noTurretImage, oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+            }
+        }
+        else
+        {
+            //draw the gunner
+            ctx.drawImage(turretImage, oneGunner.x, oneGunner.y, gunnerXSize, gunnerYSize);
+        }
 
         //gunner as a rectangle
         //insert painted hitboxes here if needed
@@ -749,25 +778,28 @@ function moveBombs()
         //if bomb hasn't been fired
         else
         {
-            //move bomb up with balloon when "w" or "arrow up" pressed
-            if (keys[38] || keys[87])
+            if (keys !== null)
             {
-                oneBomb.velY -= 1.5;
-            }
-            //move bomb up with balloon when "s" or "arrow down" pressed
-            if (keys[40] || keys[83])
-            {
-                oneBomb.velY += 3;
-            }
-            //move bomb up with balloon when "a" or "arrow left" pressed
-            if (keys[37] || keys[65])
-            {
-                oneBomb.velX -= 2;
-            }
-            //move bomb up with balloon when "d" or "arrow right" pressed
-            if (keys[39] || keys[68])
-            {
-                oneBomb.velX += 1.5;
+                //move bomb up with balloon when "w" or "arrow up" pressed
+                if (keys[38] || keys[87])
+                {
+                    oneBomb.velY -= 1.5;
+                }
+                //move bomb up with balloon when "s" or "arrow down" pressed
+                if (keys[40] || keys[83])
+                {
+                    oneBomb.velY += 3;
+                }
+                //move bomb up with balloon when "a" or "arrow left" pressed
+                if (keys[37] || keys[65])
+                {
+                    oneBomb.velX -= 2;
+                }
+                //move bomb up with balloon when "d" or "arrow right" pressed
+                if (keys[39] || keys[68])
+                {
+                    oneBomb.velX += 1.5;
+                }
             }
 
             //decceleration based on drag coefficient
@@ -873,16 +905,17 @@ function renderBullets()
             let eachBullet = gunnerAmmo[i][j];
             if (eachBullet.x >= 0 || eachBullet.y >= 0)
             {
-                if (!player.alive)
+                if (!player.alive || winCondition)
                 {
-                    //make bullets stop firing after player is dead
-                    if (eachBullet.x >=0 && eachBullet.y >= 0 && eachBullet.x <= WIDTH && eachBullet.y <= HEIGHT)
+                    if (eachBullet.x >=0 && eachBullet.y >= 0 && eachBullet.x <= WIDTH && eachBullet.y <= HEIGHT && eachBullet.countdown <= 0)
                     {
                         ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
                         eachBullet.fired = true;
                     }
                     else
                     {
+                        eachBullet.x = -50;
+                        eachBullet.y = -50;
                         ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
                         eachBullet.fired = false;
                     }
@@ -892,6 +925,7 @@ function renderBullets()
                     player.weAreHit++;
                     if (player.weAreHit >= 3)
                     {
+                        winCondition = false;
                         player.alive = false;
                         console.log("WE ARE DEAD");
                     }
@@ -1037,6 +1071,31 @@ function bulletHit()
     }
 }
 
+function gameOver()
+{
+    if (!player.alive)
+    {
+        ctx.font = "150px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("YOU LOSE", WIDTH / 2, HEIGHT/2);
+    }
+    let totalBunkersDead = 0;
+    manyBunkers.forEach(oneBunker =>
+    {
+        if (!oneBunker.alive)
+        {
+            totalBunkersDead++;
+        }
+        if (totalBunkersDead === numBunkers)
+        {
+            ctx.font = "150px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("YOU WIN!!!", WIDTH / 2, HEIGHT / 2);
+            winCondition = true;
+        }
+    });
+}
+
 
 
 //SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
@@ -1082,7 +1141,7 @@ document.addEventListener("DOMContentLoaded", function()
     //difficulty = "medium";
     //checkGameConditions();
 
-    numBunkers = 10;
+    numBunkers = 3;
     numGunners = 90;
     //create bunkers
     createBunkers();
