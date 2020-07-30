@@ -193,13 +193,13 @@ class Balloon
         //help with hitbox for balloon
         //circle portion of hitbox
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment, hitboxRadius, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
         //main triangle portion of hitbox
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.moveTo(this.xPos, (this.yPos + (hitboxRadius * 1.2)));
         ctx.lineTo((this.xPos + xAlignment), (this.yPos + 100));
         ctx.lineTo((this.xPos + (xAlignment * 2)), (this.yPos + (hitboxRadius * 1.2)));
@@ -207,7 +207,7 @@ class Balloon
         ctx.fill();
         //secondary triangle portion of hitbox
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.moveTo((this.xPos + (hitboxRadius * 0.48)), (this.yPos + (hitboxRadius * 2)));
         ctx.lineTo((this.xPos + (xAlignment * 1)), (this.yPos + 107));
         ctx.lineTo((this.xPos + (xAlignment * 1.53)), (this.yPos + (hitboxRadius * 2)));
@@ -215,13 +215,13 @@ class Balloon
         ctx.fill();
         //upper bottom half circle
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.arc(this.xPos + xAlignment, this.yPos + 105, 8, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
         //lower bottom half circle
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.arc(this.xPos + xAlignment, this.yPos + 111, 9, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
@@ -369,7 +369,7 @@ function loopElements()
                 {
                     //move it at scroll speed
                     eachBullet.x += scrollSpeed;
-                    if (eachBullet.x <= WIDTH * 2)
+                    if (eachBullet.x <= WIDTH * 2.5)
                     {
                         eachBullet.countdown--;
                     }
@@ -884,7 +884,7 @@ function renderBullets()
                 {
                     ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
                 }
-                else if (eachBullet.x <= WIDTH * 1.5 && eachBullet.countdown <= 0)
+                else if (eachBullet.x <= WIDTH * 2 && eachBullet.countdown <= 0)
                 {
                     ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
                     
