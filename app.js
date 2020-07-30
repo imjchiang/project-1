@@ -54,16 +54,13 @@ backgroundImage.setAttribute("id", "background-img");
 backgroundImage.setAttribute("src", "8bit-background.jpg");
 let backgroundXPos = 0;
 let scrollSpeed = -5;
+let tempScroll = scrollSpeed;
 
 //for balloon image
 let balloonImage = document.createElement("img");
 balloonImage.setAttribute("id", "balloon-img");
 balloonImage.setAttribute("src", "8bit-balloon.png");
 
-//for dead balloon image
-let deadBalloonImage = document.createElement("img");
-deadBalloonImage.setAttribute("id", "balloon-img");
-deadBalloonImage.setAttribute("src", "8bit-balloon.png");
 
 //for bunker image
 let bunkerImage = document.createElement("img");
@@ -197,10 +194,24 @@ class Balloon
         if (this.alive)
         {
             ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
+            if (player.weAreHit === 1)
+            {
+                balloonImage.setAttribute("src", "8bit-balloon-oneshot.png");
+            }
+            else if (player.weAreHit === 2)
+            {
+                balloonImage.setAttribute("src", "8bit-balloon-twoshot.png");
+            }
+            else if (player.weAreHit === 3)
+            {
+                balloonImage.setAttribute("src", "8bit-balloon-shot.png");
+            }
+            
         }
         else
         {
-            ctx.drawImage(deadBalloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
+            balloonImage.setAttribute("src", "8bit-balloon-shot.png");
+            ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
             keys = null;
         }
         
@@ -352,6 +363,11 @@ function loopElements()
                         eachBullet.x += scrollSpeed;
                         eachBullet.y += scrollSpeed;
                     }
+                    if (!player.alive)
+                    {
+                        eachBullet.x += tempScroll;
+                        eachBullet.y += tempScroll;
+                    }
                 }
             });
         }
@@ -378,7 +394,7 @@ function loopElements()
             {
                 player.yPos = HEIGHT - balloonGround - 120;
             }
-            //scrollSpeed *= 0.98;
+            scrollSpeed *= 0.98;
         }
     }
 }
@@ -857,7 +873,21 @@ function renderBullets()
             let eachBullet = gunnerAmmo[i][j];
             if (eachBullet.x >= 0 || eachBullet.y >= 0)
             {
-                if (eachBullet.exploded)
+                if (!player.alive)
+                {
+                    //make bullets stop firing after player is dead
+                    if (eachBullet.x >=0 && eachBullet.y >= 0 && eachBullet.x <= WIDTH && eachBullet.y <= HEIGHT)
+                    {
+                        ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+                        eachBullet.fired = true;
+                    }
+                    else
+                    {
+                        ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+                        eachBullet.fired = false;
+                    }
+                }
+                else if (eachBullet.exploded)
                 {
                     player.weAreHit++;
                     if (player.weAreHit >= 3)
