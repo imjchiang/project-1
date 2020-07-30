@@ -1076,8 +1076,14 @@ function gameOver()
     if (!player.alive)
     {
         ctx.font = "150px Arial";
+        ctx.fillStyle = "red";
         ctx.textAlign = "center";
-        ctx.fillText("YOU LOSE", WIDTH / 2, HEIGHT/2);
+        ctx.fillText("YOU LOSE", WIDTH / 2, HEIGHT / 2);
+
+        ctx.strokeStyle = "black"
+        ctx.lineWidth = 5;
+        ctx.strokeTextAlign = "center"
+        ctx.strokeText("YOU LOSE", WIDTH / 2, HEIGHT / 2);
     }
     let totalBunkersDead = 0;
     manyBunkers.forEach(oneBunker =>
@@ -1090,7 +1096,14 @@ function gameOver()
         {
             ctx.font = "150px Arial";
             ctx.textAlign = "center";
+            ctx.fillStyle = "lightgreen";
             ctx.fillText("YOU WIN!!!", WIDTH / 2, HEIGHT / 2);
+
+            ctx.strokeStyle = "black"
+            ctx.lineWidth = 5;
+            ctx.strokeTextAlign = "center"
+            ctx.strokeText("YOU WIN!!!", WIDTH / 2, HEIGHT / 2);
+
             winCondition = true;
         }
     });
