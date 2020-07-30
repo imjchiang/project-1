@@ -1,18 +1,83 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+body
+{
+    /* font-family: "Press Start 2P"; */
+    font-family: "VT323";
+}
+
+.grid-container 
+{
+    display: grid;
+    grid-template-columns: 20vw auto auto auto auto auto;
+    grid-gap: 10px;
+    background-color: black;
+    border: 10px solid black;
+}
+
+.grid-container > div
+{
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+}
+
+.canvas 
+{
+    grid-area: 2 / 2 / 6 / 6;
+    position: relative;
+    padding-right: 10px;
+}
+
+#title
+{
+    grid-area: 1 / 1 / 2 / 7;
+}
+
+#health
+{
+    grid-area: 6 / 2 / 7 / 4;
+}
+
+#bomb
+{
+    grid-area: 6 / 4 / 7 / 6;
+}
+
+#controls
+{
+    grid-area: 2 / 1 / 5 / 2;
+}
+canvas#game-background
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+canvas#game
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
 h1
 {
-    display: flex;
-    justify-content: center;
+    padding: 0;
+    margin: 0;
 }
 
-main
+h3
 {
-    display: flex;
-    justify-content: center;
+    margin-top: 0;
+    margin-bottom: 15px;
 }
 
-canvas 
+p
 {
-    border: 5px solid black;
-    position: absolute;
-    width: 75%;
+    padding-top: 10px;
+    font-size: 20px;
 }
