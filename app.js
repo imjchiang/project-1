@@ -14,6 +14,9 @@ let ctx;
 //for player object creation
 let player;
 let balloonGround = 155;
+let hitboxRadius = 34;
+let xAlignment = hitboxRadius + 0.9;
+let yAlignment = hitboxRadius + 1.4;
 
 //for bunker object creation
 let manyBunkers = [];
@@ -187,20 +190,16 @@ class Balloon
     {
         ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
         
-        //hitbox for balloon
-        //hitbox variables
-        let hitboxRadius = 34;
-        let xAlignment = hitboxRadius + 0.9;
-        let yAlignment = hitboxRadius + 1.4;
+        //help with hitbox for balloon
         //circle portion of hitbox
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment, hitboxRadius, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
         //main triangle portion of hitbox
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.moveTo(this.xPos, (this.yPos + (hitboxRadius * 1.2)));
         ctx.lineTo((this.xPos + xAlignment), (this.yPos + 100));
         ctx.lineTo((this.xPos + (xAlignment * 2)), (this.yPos + (hitboxRadius * 1.2)));
@@ -208,7 +207,7 @@ class Balloon
         ctx.fill();
         //secondary triangle portion of hitbox
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.moveTo((this.xPos + (hitboxRadius * 0.48)), (this.yPos + (hitboxRadius * 2)));
         ctx.lineTo((this.xPos + (xAlignment * 1)), (this.yPos + 107));
         ctx.lineTo((this.xPos + (xAlignment * 1.53)), (this.yPos + (hitboxRadius * 2)));
@@ -216,13 +215,13 @@ class Balloon
         ctx.fill();
         //upper bottom half circle
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
-        ctx.arc(this.xPos + xAlignment, this.yPos + 105, 8, Math.PI, 0);
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.arc(this.xPos + xAlignment, this.yPos + 105, 8, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
         //lower bottom half circle
         ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.arc(this.xPos + xAlignment, this.yPos + 111, 9, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
@@ -876,48 +875,33 @@ function renderBullets()
     //for each bullet
     for (let i = 0; i < gunnerAmmo.length; i++)
     {
-        // if (gunnerAmmo[i][0].x <= WIDTH)
-        // {
-        //     for (let j = 0; j < gunnerAmmo[i].length; j++)
-        //     {
-        //         let eachBullet = gunnerAmmo[i][j];
-        //         setInterval(shootBullet, 1000 * j, eachBullet);
-        //         console.log("Firing string of bullets: " + i + "bullet: " + j);
-        //     }
-        // }
         for (let j = gunnerAmmo[i].length - 1; j >= 0; j--)
         {
             let eachBullet = gunnerAmmo[i][j];
             if (eachBullet.x >= 0 || eachBullet.y >= 0)
             {
-                if (eachBullet.x <= WIDTH * 1.5 && eachBullet.countdown <= 0)
+                if (eachBullet.exploded)
+                {
+                    ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+                }
+                else if (eachBullet.x <= WIDTH * 1.5 && eachBullet.countdown <= 0)
                 {
                     ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
+                    
+                    //bullet hitbox helper
+                    /*
+                    ctx.beginPath();
+                    ctx.fillStyle = "rgba(15, 46, 35, 45)";
+                    ctx.arc(eachBullet.x + bulletXSize / 2, eachBullet.y + bulletYSize / 2, bulletXSize / 2, 2 * Math.PI, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    */
+                    
                     eachBullet.fired = true;
-                    console.log("Firing string of bullets: " + i + "bullet: " + j);
+                    //console.log("Firing string of bullets: " + i + "bullet: " + j);
                 }
             }
         }
-        
-        // gunnerAmmo[i].forEach(eachBullet =>
-        // {
-        //     if (eachBullet !== undefined)
-        //     {
-        //         console.log(eachBullet.countdown);
-        //         if (eachBullet.exploded)
-        //         {
-        //             ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
-        //         }
-        //         else if (eachBullet.countdown <= 0 && eachBullet.x <= WIDTH)
-        //         {
-        //             console.log("FIRE!!" + i);
-        
-        //             ctx.drawImage(bulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
-        //             eachBullet.fired = true;
-        //             console.log("fire");
-        //         }
-        //     }
-        // });
     }
 }
 
@@ -927,9 +911,62 @@ function bulletHit()
     {
         gunnerAmmo[i].forEach(eachBullet =>
         {
-            if (eachBullet.exploded)
+            //main circle portion of hitbox
+            //difference in x between main balloon circle and bullet circle
+            let dx = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between main balloon circle and bullet circle
+            let dy = (player.yPos + yAlignment) - (eachBullet.y + bulletYSize / 2);
+            //distance between main balloon circle and bullet
+            let distance = Math.sqrt((dx * dx) + (dy * dy));
+            //if collision
+            if (distance < hitboxRadius + bulletXSize / 2)
             {
                 console.log("BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
+            }
+
+
+            //main triangle portion of hitbox
+            
+            ctx.moveTo(this.xPos, (this.yPos + (hitboxRadius * 1.2)));
+            ctx.lineTo((this.xPos + xAlignment), (this.yPos + 100));
+            ctx.lineTo((this.xPos + (xAlignment * 2)), (this.yPos + (hitboxRadius * 1.2)));
+            
+            //secondary triangle portion of hitbox
+            
+            ctx.moveTo((this.xPos + (hitboxRadius * 0.48)), (this.yPos + (hitboxRadius * 2)));
+            ctx.lineTo((this.xPos + (xAlignment * 1)), (this.yPos + 107));
+            ctx.lineTo((this.xPos + (xAlignment * 1.53)), (this.yPos + (hitboxRadius * 2)));
+            
+            //upper bottom circle portion of hitbox
+            //difference in x between upper bottom balloon circle and bullet circle
+            let dx4 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between upper bottom balloon circle and bullet circle
+            let dy4 = (player.yPos + 105) - (eachBullet.y + bulletYSize / 2);
+            //distance between upper bottom balloon circle and bullet
+            let distance4 = Math.sqrt((dx4 * dx4) + (dy4 * dy4));
+            //if collision
+            if (distance4 < 8 + bulletXSize / 2)
+            {
+                console.log("UPPER BOTTOM BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
+            }
+
+            //lower bottom circle portion of hitbox
+            //difference in x between lower bottom balloon circle and bullet circle
+            let dx5 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between lower bottom balloon circle and bullet circle
+            let dy5 = (player.yPos + 111) - (eachBullet.y + bulletYSize / 2);
+            //distance between lower bottom balloon circle and bullet
+            let distance5 = Math.sqrt((dx5 * dx5) + (dy5 * dy5));
+            //if collision
+            if (distance5 < 9 + bulletXSize / 2)
+            {
+                console.log("LOWER BOTTOM BULLET HIT!");
+                player.alive = false;
+                eachBullet.exploded = true;
             }
         });
     }
