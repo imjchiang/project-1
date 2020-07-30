@@ -119,6 +119,7 @@ class Balloon
         //are we still good?
         this.alive = true;
         this.hitGround = 0;     //hit ground 3 times = dead
+        this.weAreHit = 0;
 
         //movement
         this.velX = 0;
@@ -444,7 +445,7 @@ function startLoop()
 //run game 
 function playGame()
 {
-    //console.log("looping yeeet");
+    console.log("looping yeeet");
     //clear the canvas
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     
@@ -594,7 +595,7 @@ function createGunners()
                 (gunnerRandomX[i] >= bunkerRandomX[b] && gunnerRandomX[i] <= bunkerRandomX[b] + bunkerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= bunkerRandomY[b] && gunnerRandomY[i] + gunnerYSize + 5 <= bunkerRandomY[b] + bunkerYSize + 5))
             {
                 //print gunner and bunker collision
-                console.log("i: " + i + "; bunker: " + b + "; collision: reassign position for " + i);
+                //console.log("i: " + i + "; bunker: " + b + "; collision: reassign position for " + i);
                 //invalid gunner
                 invalidGunner = true;
                 //exit for loop
@@ -635,7 +636,7 @@ function createGunners()
                     (gunnerRandomX[i] >= gunnerRandomX[g] && gunnerRandomX[i] <= gunnerRandomX[g] + gunnerXSize + 5) && (gunnerRandomY[i] + gunnerYSize + 5 >= gunnerRandomY[g] && gunnerRandomY[i] + gunnerYSize + 5 <= gunnerRandomY[g] + gunnerYSize + 5))
                 {
                     //print gunner collision
-                    console.log("i: " + i + "; g: " + g + "; collision: reassign position for " + i);
+                    //console.log("i: " + i + "; g: " + g + "; collision: reassign position for " + i);
                     //invalid gunner
                     invalidGunner = true;
                     //exit for loop
@@ -908,7 +909,7 @@ function createBullets()
             let bullet = new Ammo(manyGunners[g].x, manyGunners[g].y, 135, false, 1);
             bullet.countdown = i * (Math.floor(Math.random() * 10) + 65);
             eachGunner.push(bullet);
-            console.log("gunner: " + g + "has " + i + " bullet");
+            //console.log("gunner: " + g + "has " + i + " bullet");
         }
         gunnerAmmo.push(eachGunner);
     }
@@ -926,8 +927,14 @@ function renderBullets()
             {
                 if (eachBullet.exploded)
                 {
-                    eachBullet.x = -1;
-                    eachBullet.y = -1;
+                    player.weAreHit++;
+                    if (player.weAreHit >= 3)
+                    {
+                        player.alive = false;
+                        console.log("WE ARE DEAD");
+                    }
+                    eachBullet.x = -20;
+                    eachBullet.y = -20;
                     ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
                 }
                 else if (eachBullet.x <= WIDTH * 2 && eachBullet.countdown <= 0)
@@ -968,7 +975,6 @@ function bulletHit()
             if (distance < hitboxRadius + bulletXSize / 2)
             {
                 console.log("BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
 
@@ -984,7 +990,6 @@ function bulletHit()
             if (distance1 < hitboxRadius * 0.70 + bulletXSize / 2)
             {
                 console.log("TRIANGLE REPLACEMENT 1 BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
 
@@ -999,7 +1004,6 @@ function bulletHit()
             if (distance2 < hitboxRadius * 0.47 + bulletXSize / 2)
             {
                 console.log("TRIANGLE REPLACEMENT 2 BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
             
@@ -1014,7 +1018,6 @@ function bulletHit()
             if (distance3 < hitboxRadius * 0.35 + bulletXSize / 2)
             {
                 console.log("TRIANGLE REPLACEMENT 3 BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
 
@@ -1029,7 +1032,6 @@ function bulletHit()
             if (distance4 < hitboxRadius * 0.22 + bulletXSize / 2)
             {
                 console.log("TRIANGLE REPLACEMENT 4 BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
 
@@ -1044,7 +1046,6 @@ function bulletHit()
             if (distance5 < hitboxRadius * 0.17 + bulletXSize / 2)
             {
                 console.log("TRIANGLE REPLACEMENT 5 BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
 
@@ -1060,7 +1061,6 @@ function bulletHit()
             if (distance6 < 8 + bulletXSize / 2)
             {
                 console.log("UPPER BOTTOM BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
 
@@ -1075,7 +1075,6 @@ function bulletHit()
             if (distance7 < 9 + bulletXSize / 2)
             {
                 console.log("LOWER BOTTOM BULLET HIT!");
-                player.alive = false;
                 eachBullet.exploded = true;
             }
         });
