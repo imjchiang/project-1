@@ -119,6 +119,7 @@ class Balloon
         this.yPos = yPos;
         this.xSize = xSize;
         this.ySize = ySize;
+        this.deadY = 1;
 
         //are we still good?
         this.alive = true;
@@ -364,6 +365,21 @@ function loopElements()
                 oneAmmo.x += scrollSpeed;
             }
         })
+    }
+
+    //player movement only when dead
+    {
+        if (!player.alive)
+        {
+            player.xPos += scrollSpeed;
+            player.yPos += player.deadY * 1.75;
+            player.deadY++;
+            if (player.yPos > HEIGHT - balloonGround - 120)
+            {
+                player.yPos = HEIGHT - balloonGround - 120;
+            }
+            //scrollSpeed *= 0.98;
+        }
     }
 }
 
