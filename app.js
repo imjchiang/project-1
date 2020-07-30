@@ -192,6 +192,7 @@ class Balloon
         
         //help with hitbox for balloon
         //main circle portion of hitbox
+        /*
         ctx.beginPath();
         ctx.fillStyle = "rgba(0, 0, 0, 1)";
         ctx.arc(this.xPos + xAlignment, this.yPos + yAlignment, hitboxRadius, 2 * Math.PI, 0);
@@ -234,7 +235,6 @@ class Balloon
         ctx.fill();
 
         //main triangle portion of hitbox
-        /*
         ctx.beginPath();
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.moveTo(this.xPos, (this.yPos + (hitboxRadius * 1.2)));
@@ -250,7 +250,6 @@ class Balloon
         ctx.lineTo((this.xPos + (xAlignment * 1.53)), (this.yPos + (hitboxRadius * 2)));
         ctx.closePath();
         ctx.fill();
-        */
 
         //upper bottom half circle
         ctx.beginPath();
@@ -264,6 +263,7 @@ class Balloon
         ctx.arc(this.xPos + xAlignment, this.yPos + 111, 9, 2 * Math.PI, 0);
         ctx.closePath();
         ctx.fill();
+        */
     }
 }
 
@@ -456,9 +456,6 @@ function playGame()
     //check collision with bomb
     bombHit();
 
-    //check collision with bullet
-    bulletHit();
-
     //render alive bunkers
     renderBunkers();
     //render gunners
@@ -470,6 +467,9 @@ function playGame()
     //render the player and move player
     player.render();
     player.move();
+
+    //check collision with bullet
+    bulletHit();
 
     //render bombs and move them
     renderBombs();
@@ -545,7 +545,11 @@ function renderBunkers()
         }
         else
         {
-            ctx.drawImage(deadBunkerImage, oneBunker.x, oneBunker.y, bunkerXSize, bunkerYSize);
+            //move bunker object away
+            oneBunker.x -= WIDTH * 2;
+            let deadBunker = oneBunker.x + WIDTH * 2;
+            //show destroyed bunker image
+            ctx.drawImage(deadBunkerImage, deadBunker, oneBunker.y, bunkerXSize, bunkerYSize);
         }
     });
 }
@@ -825,25 +829,26 @@ function moveBombs()
             oneBomb.x += oneBomb.velX;
             oneBomb.y += oneBomb.velY;
 
+            player.yPos + (player.ySize - 25)
+
             //in bounds x axis
-            if (oneBomb.x > WIDTH - 70)
+            if (oneBomb.x > WIDTH - player.xSize / 2 - 15)
             {
-                oneBomb.x = WIDTH - 70;
+                oneBomb.x = WIDTH - player.xSize / 2 - 15;
             }
-            else if (oneBomb.x < 0)
+            else if (oneBomb.x < (player.xSize / 2 - 15))
             {
-                oneBomb.x = 0;
+                oneBomb.x = player.xSize / 2 - 15;
             }
 
             //in bounds y axis
-            if (oneBomb.y > HEIGHT - balloonGround - 120)
+            if (oneBomb.y > HEIGHT - balloonGround - player.ySize + 95)
             {
-                oneBomb.y = HEIGHT - balloonGround - 120;
-                oneBomb.hitGround++;
+                oneBomb.y = HEIGHT - balloonGround - player.ySize + 95;
             }
-            else if (oneBomb.y < 0)
+            else if (oneBomb.y < (player.ySize - 25))
             {
-                oneBomb.y = 0;
+                oneBomb.y = (player.ySize - 25);
             }
         }
     })
@@ -921,6 +926,8 @@ function renderBullets()
             {
                 if (eachBullet.exploded)
                 {
+                    eachBullet.x = -1;
+                    eachBullet.y = -1;
                     ctx.drawImage(noBulletImage, eachBullet.x, eachBullet.y, bulletXSize, bulletYSize);
                 }
                 else if (eachBullet.x <= WIDTH * 2 && eachBullet.countdown <= 0)
@@ -1076,6 +1083,7 @@ function bulletHit()
 }
 
 
+
 //SET UP AND RUN GAME ------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function() 
 {
@@ -1138,3 +1146,5 @@ document.addEventListener("DOMContentLoaded", function()
     //RUN GAME
     let runGame = setInterval(playGame, 45);    //change number for better fps, need to account for speed of game though (45)
 })
+
+
