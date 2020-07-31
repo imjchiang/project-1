@@ -5,6 +5,8 @@ body
 {
     /* font-family: "Press Start 2P"; */
     font-family: "VT323";
+    display: flex;
+    justify-content: center;
 }
 
 .grid-container 
@@ -29,8 +31,8 @@ body
 
 .container
 {
-    width: 95vw;
-    height: 56vw;
+    width: 175vh;
+    height: 95vh;
 }
 
 .canvas 
