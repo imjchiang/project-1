@@ -150,11 +150,10 @@ p
     grid-area: 6 / 4 / 7 / 6;
 }
 
-#bunkers-left
+#health-bar
 {
-    padding: 0 0 0 10px;
-    font-size: 30px;
-    grid-area: 6 / 4 / 7 / 6;
+    width: 10vw;
+    padding-left: 10px;
 }
 
 /* @media 

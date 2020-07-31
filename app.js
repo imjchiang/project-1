@@ -530,7 +530,31 @@ function renderBunkers()
             ctx.drawImage(deadBunkerImage, deadBunker, oneBunker.y, bunkerXSize, bunkerYSize);
         }
     });
-    document.getElementById("bunkers-left").textContent = liveBunkers;
+    if (liveBunkers === 5)
+    {
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/full-bunker-bar.png");
+    }
+    else if (liveBunkers === 4)
+    {
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/four-bunker-bar.png");
+    }
+    else if (liveBunkers === 3)
+    {
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/three-bunker-bar.png");
+    }
+    else if (liveBunkers === 2)
+    {
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/two-bunker-bar.png");
+    }
+    else if (liveBunkers === 1)
+    {
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/one-bunker-bar.png");
+    }
+    else if (liveBunkers === 0)
+    {
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/no-bunker-bar.png");
+    }
+
 }
 
 //create the gunners
