@@ -1,7 +1,21 @@
-# Bomb Dropper
+# Balloon Bomber
 You are flying in a hot air balloon and performing a strategic reconnaissance mission in which you need to avoid all the anti-aircraft weaponry. You must hit the bunkers in order to immobilize the enemies defenses and not doing so will result in a failed mission
 
-# Code Explained...
+## Installation Instructions
+- Fork code from github and run the index.html file on chrome or play game from the link listed here:
+https://imjchiang.github.io/project-1/
+
+## Unsolved Problems
+- When the window is made significantly small, everything renders fine except for the grid which kind of bugs out and shrinks, resulting in some areas not having the gray background and black border of the grid.
+    - Potential Solution: Unknown.
+- I was unable to completely get the sizing of the game window correct without distortion occuring.
+    - Potential Solution: use an @media query to fix the issue
+- Space bar sometimes activates scrolling or clicking the buttons
+    - Potential Solution: click on the game itself after using the buttons or scrolling to ensure that clicking space doesn't activate those things
+
+# Explaination of Technologies Used
+In this project, we used HTML and CSS mainly for adding different elements, formatting the game, changing the positioning, and styling the game. As for javascript, it was used in order to run the game, add in additional elements that need to be introduced during the game, create and render objects, and determine win conditions of the game.
+
 ### HTML
 - In HTML, we designated many series of ```divs``` and nested ```divs```. This is done so that we can use the many different ```divs``` in the grid we manipulate in CSS.
 - We were also able to attach our canvases on the HTML which is where the game interface is
@@ -712,7 +726,3 @@ function bulletHit()
 ```
 - Manny different circles that overlapped were used for hitboxes that would be close to the actual shape.
 - This uses the distance formula in order to ensure that the bullets (circular) are not overlapping with the ballon (an object composed of many circular hitboxes)
-
-
-### Be aware...
-MVP needs to be done on Wednesday.

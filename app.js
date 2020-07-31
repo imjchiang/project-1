@@ -74,8 +74,8 @@ bunkerImage.setAttribute("id", "bunker-img");
 bunkerImage.setAttribute("src", "pictures/enemies/bunker-on-hill.png");
 //for dead bunker image
 let deadBunkerImage = document.createElement("img");
-bunkerImage.setAttribute("id", "bunker-img");
-//bunkerImage.setAttribute("src", "pictures/enemies/bunker-on-hill.png");
+deadBunkerImage.setAttribute("id", "bunker-img");
+deadBunkerImage.setAttribute("src", "pictures/enemies/dead-bunker.png");
 
 
 //for turret image
@@ -251,6 +251,7 @@ function Bunker(x, y)//, rockets)
     this.x = x;
     this.y = y;
     this.alive = true;
+    this.deadX;
     //this.rockets = rockets;     //not essential
 }
 
@@ -535,10 +536,17 @@ function renderBunkers()
         else
         {
             //move bunker object away
+            if (oneBunker.deadX > -200)
+            {
+                oneBunker.deadX += scrollSpeed;
+            }
+            if (oneBunker.deadX === undefined || oneBunker.deadX === null)
+            {
+                oneBunker.deadX = oneBunker.x;
+            }
             oneBunker.x -= WIDTH * 2;
-            let deadBunker = oneBunker.x + WIDTH * 2;
             //show destroyed bunker image
-            ctx.drawImage(deadBunkerImage, deadBunker, oneBunker.y, bunkerXSize, bunkerYSize);
+            ctx.drawImage(deadBunkerImage, oneBunker.deadX, oneBunker.y, bunkerXSize, bunkerYSize);
         }
     });
     if (liveBunkers === 5)
@@ -1183,58 +1191,43 @@ document.addEventListener("DOMContentLoaded", function()
         ctxTutorial.textAlign = "center";
         ctxTutorial.fillText("PRESS START", WIDTH / 2, HEIGHT / 2);
 
-        //for player object creation
-        balloonGround = 155;
-        hitboxRadius = 34;
-        xAlignment = hitboxRadius + 0.9;
-        yAlignment = hitboxRadius + 1.4;
-
-        //for bunker object creation
+        //reset for bunker object creation
         manyBunkers = [];
         bunkerRandomY = [];
         bunkerRandomX = [];
-        bunkerXSize = 100;
-        bunkerYSize = 50;
-        bunkerRadius = 40;
 
-        //for gunner object creation
+        //reset for gunner object creation
         manyGunners = [];
         gunnerRandomY = [];
         gunnerRandomX = [];
-        gunnerXSize = 34;
-        gunnerYSize = 30;
 
-        //for gunner ammo object creation
+        //reset for gunner ammo object creation
         numGunnerAmmo = 10;
-        gunnerAmmo = [];
         bulletXSize = 10;
         bulletYSize = 10;
+        gunnerAmmo = [];
 
-        //for player ammo object creation
+        //reset for player ammo object creation
         balloonAmmo = [];
         bombIndex = 0;
-        bombSize = 15;
-        bombRadius = 7;
 
-        //for background image scrolling
-        backgroundImage.setAttribute("src", "pictures/background/8bit-background.jpg");
+        //reset for background image scrolling
         backgroundXPos = 0;
         scrollSpeed = -5;
         tempScroll = scrollSpeed;
+        winCondition = undefined;
 
-
-        //for balloon image
+        //reset for balloon image
         balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon.png");
         document.getElementById("health-bar").setAttribute("src", "pictures/health/full-health-bar.png");
         document.getElementById("bunker-bar").setAttribute("src", "pictures/health/full-bunker-bar.png");
 
-        //store key press events
+        //reset key press event array
         keys = [];
 
-        //character refs
-        //create Player
+        //create new player
         player = new Balloon(150, 100, 70, 120);
-        //create bombs for player
+        //create new bombs for player
         numBalloonAmmo = 10;
         createBombs();
         bombsLeft = numBalloonAmmo;
@@ -1243,12 +1236,12 @@ document.addEventListener("DOMContentLoaded", function()
         liveBunkers = numBunkers;
 
         numGunners = 90;
-        //create bunkers
+        //create new bunkers
         createBunkers();
-        //create gunners
+        //create new gunners
         createGunners();
 
-        //create array of ammo for gunners
+        //create new array of ammo for gunners
         createBullets();
 
     });
