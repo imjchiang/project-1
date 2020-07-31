@@ -52,6 +52,7 @@ let bombIndex = 0;
 let bombSize = 15;
 let bombRadius = 7;
 let bombsLeft;
+let bombBar = ["pictures/bomb-bar/no-bomb-bar.png", "pictures/bomb-bar/one-bomb-bar.png", "pictures/bomb-bar/two-bomb-bar.png", "pictures/bomb-bar/three-bomb-bar.png", "pictures/bomb-bar/four-bomb-bar.png", "pictures/bomb-bar/five-bomb-bar.png", "pictures/bomb-bar/six-bomb-bar.png", "pictures/bomb-bar/seven-bomb-bar.png", "pictures/bomb-bar/eight-bomb-bar.png", "pictures/bomb-bar/nine-bomb-bar.png", "pictures/bomb-bar/full-bomb-bar.png"];
 
 //for background image scrolling
 let backgroundImage = document.createElement("img");
@@ -239,6 +240,8 @@ class Balloon
         {
             balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon-shot.png");
             ctx.drawImage(balloonImage, this.xPos, this.yPos, this.xSize, this.ySize);
+
+            
             keys = null;
         }
         
@@ -445,7 +448,7 @@ function playGame()
     //run loop for background and moving objects
     startLoop();
     
-    document.getElementById("bombs-left").textContent = bombsLeft;
+    document.getElementById("bombs-left").setAttribute("src", bombBar[bombsLeft]);
     //check collision with bomb
     bombHit();
 
@@ -1202,6 +1205,8 @@ document.addEventListener("DOMContentLoaded", function()
     document.getElementById("restart-button").addEventListener("click", function()
     {
         clearInterval(runGame);
+
+        document.getElementById("bombs-left").setAttribute("src", bombBar[10]);
 
         ctxTutorial.drawImage(tutorialImage, 0, 0, WIDTH, HEIGHT);
         ctxTutorial.font = "150px Arial";
