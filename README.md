@@ -585,5 +585,134 @@ document.getElementById("start-button").addEventListener("click", function()
 - Here the start button is used to run the game
 - It checks for previously run games and cancels the intervals being used to run them if necessary.
 
+###### The following is an example of hitbox detection used in this game
+```javascript
+function bulletHit()
+{
+    for (let i = 0; i < gunnerAmmo.length; i++)
+    {
+        gunnerAmmo[i].forEach(eachBullet =>
+        {
+            //main circle portion of hitbox
+            //difference in x between main balloon circle and bullet circle
+            let dx = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between main balloon circle and bullet circle
+            let dy = (player.yPos + yAlignment) - (eachBullet.y + bulletYSize / 2);
+            //distance between main balloon circle and bullet
+            let distance = Math.sqrt((dx * dx) + (dy * dy));
+            //if collision
+            if (distance < hitboxRadius + bulletXSize / 2)
+            {
+                console.log("BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+
+
+            //triangle replacement circle 1 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx1 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy1 = (player.yPos + yAlignment + 20) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance1 = Math.sqrt((dx1 * dx1) + (dy1 * dy1));
+            //if collision
+            if (distance1 < hitboxRadius * 0.70 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 1 BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+
+            //triangle replacement circle 2 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx2 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy2 = (player.yPos + yAlignment + 35) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance2 = Math.sqrt((dx2 * dx2) + (dy2 * dy2));
+            //if collision
+            if (distance2 < hitboxRadius * 0.47 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 2 BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+            
+            //triangle replacement circle 3 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx3 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy3 = (player.yPos + yAlignment + 45) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance3 = Math.sqrt((dx3 * dx3) + (dy3 * dy3));
+            //if collision
+            if (distance3 < hitboxRadius * 0.35 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 3 BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+
+            //triangle replacement circle 4 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx4 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy4 = (player.yPos + yAlignment + 55) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance4 = Math.sqrt((dx4 * dx4) + (dy4 * dy4));
+            //if collision
+            if (distance4 < hitboxRadius * 0.22 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 4 BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+
+            //triangle replacement circle 5 portion of hitbox
+            //difference in x between triangle replacement balloon circle 1 and bullet circle
+            let dx5 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between triangle replacement balloon circle 1 and bullet circle
+            let dy5 = (player.yPos + yAlignment + 60) - (eachBullet.y + bulletYSize / 2);
+            //distance between triangle replacement balloon circle 1 and bullet
+            let distance5 = Math.sqrt((dx5 * dx5) + (dy5 * dy5));
+            //if collision
+            if (distance5 < hitboxRadius * 0.17 + bulletXSize / 2)
+            {
+                console.log("TRIANGLE REPLACEMENT 5 BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+
+            
+            //upper bottom circle portion of hitbox
+            //difference in x between upper bottom balloon circle and bullet circle
+            let dx6 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between upper bottom balloon circle and bullet circle
+            let dy6 = (player.yPos + 105) - (eachBullet.y + bulletYSize / 2);
+            //distance between upper bottom balloon circle and bullet
+            let distance6 = Math.sqrt((dx6 * dx6) + (dy6 * dy6));
+            //if collision
+            if (distance6 < 8 + bulletXSize / 2)
+            {
+                console.log("UPPER BOTTOM BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+
+            //lower bottom circle portion of hitbox
+            //difference in x between lower bottom balloon circle and bullet circle
+            let dx7 = (player.xPos + xAlignment) - (eachBullet.x + bulletXSize / 2);
+            //difference in y between lower bottom balloon circle and bullet circle
+            let dy7 = (player.yPos + 111) - (eachBullet.y + bulletYSize / 2);
+            //distance between lower bottom balloon circle and bullet
+            let distance7 = Math.sqrt((dx7 * dx7) + (dy7 * dy7));
+            //if collision
+            if (distance7 < 9 + bulletXSize / 2)
+            {
+                console.log("LOWER BOTTOM BULLET HIT!");
+                eachBullet.exploded = true;
+            }
+        });
+    }
+}
+```
+- Manny different circles that overlapped were used for hitboxes that would be close to the actual shape.
+- This uses the distance formula in order to ensure that the bullets (circular) are not overlapping with the ballon (an object composed of many circular hitboxes)
+
+
 ### Be aware...
 MVP needs to be done on Wednesday.
