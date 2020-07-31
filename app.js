@@ -118,6 +118,7 @@ let keys = [];
 //difficulty variables
 let difficulty = "";
 let winCondition;
+let loseCondition;
 let runGame;
 let missionComplete = true;
 
@@ -540,7 +541,7 @@ function renderBunkers()
         else
         {
             //move bunker object away
-            if (oneBunker.deadX > -200)
+            if (oneBunker.deadX > -300)
             {
                 oneBunker.deadX += scrollSpeed;
             }
@@ -1130,6 +1131,7 @@ function gameOver()
 {
     if (!player.alive)
     {
+        loseCondition = true;
         document.getElementById("health-bar").setAttribute("src", "pictures/health/no-health-bar.png");
 
         ctx.font = "150px Arial";
@@ -1142,7 +1144,7 @@ function gameOver()
         ctx.strokeTextAlign = "center"
         ctx.strokeText("YOU LOSE", WIDTH / 2, HEIGHT / 2);
     }
-    if (!missionComplete)
+    if (!missionComplete && !loseCondition)
     {
         ctx.font = "150px Arial";
         ctx.fillStyle = "red";
@@ -1161,7 +1163,7 @@ function gameOver()
         {
             totalBunkersDead++;
         }
-        if (totalBunkersDead === numBunkers)
+        if (totalBunkersDead === numBunkers && loseCondition === undefined)
         {
             ctx.font = "150px Arial";
             ctx.textAlign = "center";
@@ -1232,6 +1234,7 @@ document.addEventListener("DOMContentLoaded", function()
         scrollSpeed = -5;
         tempScroll = scrollSpeed;
         winCondition = undefined;
+        loseCondition = undefined;
         missionComplete = true;
         
         //reset for balloon image
