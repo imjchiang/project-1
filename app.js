@@ -1178,6 +1178,10 @@ document.addEventListener("DOMContentLoaded", function()
         clearInterval(runGame);
 
         ctxTutorial.drawImage(tutorialImage, 0, 0, WIDTH, HEIGHT);
+        ctxTutorial.font = "150px Arial";
+        ctxTutorial.fillStyle = "yellow";
+        ctxTutorial.textAlign = "center";
+        ctxTutorial.fillText("PRESS START", WIDTH / 2, HEIGHT / 2);
 
         //for player object creation
         balloonGround = 155;

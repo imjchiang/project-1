@@ -34,18 +34,29 @@ You are flying in a hot air balloon and performing a strategic reconnaissance mi
 ```
 - This is an example of a button being displayed on the grid
 
-###### The following are the two canvases that were used for the rendering of the game in the grid
+###### The following are the three canvases that were used for the rendering of the game in the grid
 ```HTML
 <main class="canvas">
     <canvas id="game-background"><!-- set scrolling background --></canvas>
     <canvas id="game"><!-- play game --></canvas>   
+    <canvas id="tutorial"><!-- show tutorial image --></canvas>
 </main>
 ```
-- The ```game-background``` canvas and the ```game``` canvas are rendered on the grid
+- The ```game-background``` canvas, ```game``` canvas, and ```tutorial``` canvas are rendered on the grid
 
 ### CSS
-- 
+- In CSS, we imported a gamey font for the game and organized and styled the grids, canvases, text, and images.
 
+###### The following is the importing of the font and the use of the font
+```CSS
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+body
+{
+    font-family: "VT323";
+    ...
+}
+```
 
 ### Be aware...
 MVP needs to be done on Wednesday.
