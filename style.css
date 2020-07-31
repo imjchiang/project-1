@@ -189,14 +189,8 @@ p
 #credits > p
 {
     padding: 0;
-    padding-left: 7px;
-    margin: 0;
-}
-
-#name
-{
-    padding: 0;
-    padding-left: 15px;
+    padding-left: 1vw;
+    padding-right: 1vw;
     margin: 0;
 }
 /* @media 
