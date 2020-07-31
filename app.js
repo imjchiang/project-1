@@ -209,10 +209,12 @@ class Balloon
             if (player.weAreHit === 1)
             {
                 balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon-oneshot.png");
+                document.getElementById("health-bar").setAttribute("src", "pictures/health/two-health-bar.png");
             }
             else if (player.weAreHit === 2)
             {
                 balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon-twoshot.png");
+                document.getElementById("health-bar").setAttribute("src", "pictures/health/one-health-bar.png");
             }
             else if (player.weAreHit === 3)
             {
@@ -429,7 +431,7 @@ function playGame()
     //run loop for background and moving objects
     startLoop();
     
-    document.getElementById("bomb").textContent = "Bombs Left: " + bombsLeft;
+    document.getElementById("bombs-left").textContent = bombsLeft;
     //check collision with bomb
     bombHit();
 
@@ -1078,6 +1080,8 @@ function gameOver()
 {
     if (!player.alive)
     {
+        document.getElementById("health-bar").setAttribute("src", "pictures/health/no-health-bar.png");
+        
         ctx.font = "150px Arial";
         ctx.fillStyle = "red";
         ctx.textAlign = "center";
