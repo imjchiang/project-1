@@ -11,9 +11,12 @@ body
 {
     display: grid;
     grid-template-columns: 20vw auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto auto;
     grid-gap: 10px;
     background-color: black;
     border: 10px solid black;
+    width: 100%;
+    height: 100%;
 }
 
 .grid-container > div
@@ -23,6 +26,16 @@ body
     padding: 20px 0;
     font-size: 30px;
 }
+
+.container
+{
+    width: 95vw;
+    height: 55vw;
+    min-width: 1120px;
+    min-height: 700px;
+}
+
+
 
 .canvas 
 {
@@ -50,6 +63,7 @@ body
 {
     grid-area: 2 / 1 / 5 / 2;
 }
+
 canvas#game-background
 {
     position: absolute;

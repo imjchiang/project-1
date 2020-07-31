@@ -7,40 +7,42 @@
     <title>Balloon Bomber Game</title>
 </head>
 <body>
-    <div class="grid-container">
-        <div id="title">
-            <h1>BALLOON BOMBER</h1>
+    <div class="container">
+        <div class="grid-container">
+            <div id="title">
+                <h1>BALLOON BOMBER</h1>
+            </div>
+    
+            <div id="health">
+                Health: 
+            </div>
+    
+            <div id="bomb">
+                Bombs Left: 
+            </div>
+    
+            <div id="controls">
+                <h3>Controls:</h3>
+                <p>"w" or "up" = up</p>
+                <p>"s" or "down" = down</p>
+                <p>"a" or "left" = left</p>
+                <p>"d" or "right" = right</p>
+                <p>"space" = drop bombs</p>
+            </div>
+    
+            <div id="start">START GAME</div>
+            <div id="2">RESTART GAME</div>
+            <div id="3">3</div>
+            <div id="4">4</div>
+            <div id="5">5</div>
+            <div id="6">6</div>
+            <div id="7">7</div>
+    
+            <main class="canvas">
+                <canvas id="game-background"><!-- set scrolling background --></canvas>
+                <canvas id="game"><!-- play game --></canvas>   
+            </main>
         </div>
-
-        <div id="health">
-            Health: 
-        </div>
-
-        <div id="bomb">
-            Bombs Left: 
-        </div>
-
-        <div id="controls">
-            <h3>Controls:</h3>
-            <p>"w" or "up" = up</p>
-            <p>"s" or "down" = down</p>
-            <p>"a" or "left" = left</p>
-            <p>"d" or "right" = right</p>
-            <p>"space" = drop bombs</p>
-        </div>
-
-        <div id="1">1</div>
-        <div id="2">2</div>
-        <div id="3">3</div>
-        <div id="4">4</div>
-        <div id="5">5</div>
-        <div id="6">6</div>
-        <div id="7">7</div>
-
-        <main class="canvas">
-            <canvas id="game-background"><!-- set scrolling background --></canvas>
-            <canvas id="game"><!-- play game --></canvas>   
-        </main>
     </div>
 
 

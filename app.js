@@ -47,6 +47,7 @@ let balloonAmmo = [];
 let bombIndex = 0;
 let bombSize = 15;
 let bombRadius = 7;
+let bombsLeft;
 
 //for background image scrolling
 let backgroundImage = document.createElement("img");
@@ -428,6 +429,7 @@ function playGame()
     //run loop for background and moving objects
     startLoop();
     
+    document.getElementById("bomb").textContent = "Bombs Left: " + bombsLeft;
     //check collision with bomb
     bombHit();
 
@@ -843,6 +845,7 @@ function bombFired()
     {
         oneBomb.fired = true;
         bombIndex++;
+        bombsLeft--;
     }
     else
     {
@@ -1149,7 +1152,7 @@ document.addEventListener("DOMContentLoaded", function()
     //create bombs for player
     numBalloonAmmo = 10;
     createBombs();
-    
+    bombsLeft = numBalloonAmmo;
     //button click listener?
     //difficulty = "medium";
     //checkGameConditions();
