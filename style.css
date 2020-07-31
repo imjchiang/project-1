@@ -10,7 +10,7 @@ body
 .grid-container 
 {
     display: grid;
-    grid-template-columns: 20vw auto auto auto auto auto;
+    grid-template-columns: 20vw auto auto auto auto 10vw;
     grid-template-rows: auto auto auto auto auto auto;
     grid-gap: 10px;
     background-color: black;
@@ -30,18 +30,15 @@ body
 .container
 {
     width: 95vw;
-    height: 55vw;
-    min-width: 1120px;
-    min-height: 700px;
+    height: 56vw;
 }
-
-
 
 .canvas 
 {
     grid-area: 2 / 2 / 6 / 6;
     position: relative;
-    padding-right: 10px;
+    min-width: 659px;
+    min-height: 425px;
 }
 
 #title
@@ -95,3 +92,32 @@ p
     padding-top: 10px;
     font-size: 20px;
 }
+
+#start, #restart
+{
+    display: flex;
+    justify-content: center;
+}
+
+#start-button
+{
+    font-size: 35px;
+    font-family: "VT323";
+    padding: 0 5px 0 5px; 
+    margin: 0 20px 0 20px;
+    background-color: white;
+    color: rgb(131, 218, 131);
+}
+
+#restart-button
+{
+    font-size: 35px;
+    font-family: "VT323";
+    padding: 0 2px 0 2px; 
+    margin: 0 20px 0 20px;
+    background-color: white;
+    color: orange;
+}
+
+/* @media 
+width 1230 */
