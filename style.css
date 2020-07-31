@@ -52,6 +52,7 @@ body
 
 #health
 {
+    font-size: 4vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,11 +85,13 @@ body
 
 #controls
 {
+    font-size: 4vh;
     grid-area: 2 / 1 / 5 / 2;
 }
 
 #rules
 {
+    font-size: 4vh;
     grid-area: 5 / 1 / 7 / 2;
 }
 
@@ -128,7 +131,7 @@ h4
 p
 {
     padding-top: 10px;
-    font-size: 20px;
+    font-size: 2.5vh;
 }
 
 #start, #restart
@@ -149,7 +152,7 @@ p
 
 #restart-button
 {
-    font-size: 2vw;
+    font-size: 1.75vw;
     font-family: "VT323";
     padding: 0 2px 0 2px; 
     margin: 0 20px 0 20px;
@@ -159,6 +162,7 @@ p
 
 #bunkers
 {
+    font-size: 4vh;
     padding: 0;
     display: flex;
     justify-content: center;
