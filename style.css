@@ -12,8 +12,8 @@ body
 .grid-container 
 {
     display: grid;
-    grid-template-columns: 20vw auto auto auto auto 10vw;
-    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: 20% 15% 15% 15% 15% auto;
+    grid-template-rows: 15% 15% 15% 15% 15% auto;
     grid-gap: 10px;
     background-color: black;
     border: 10px solid black;
@@ -31,16 +31,18 @@ body
 
 .container
 {
-    width: 155vh;
-    height: 90vh;
+    /* width: 1200px;
+    height: 700px; */
+    width: 150vh;
+    height: 87vh;
 }
 
 .canvas 
 {
     grid-area: 2 / 2 / 6 / 6;
     position: relative;
-    min-width: 659px;
-    min-height: 425px;
+    min-width: 600px;
+    min-height: 350px;
 }
 
 #title
@@ -82,12 +84,12 @@ body
 
 #controls
 {
-    grid-area: 2 / 1 / 4 / 2;
+    grid-area: 2 / 1 / 5 / 2;
 }
 
 #rules
 {
-    grid-area: 4 / 1 / 7 / 2;
+    grid-area: 5 / 1 / 7 / 2;
 }
 
 canvas#game-background
@@ -137,7 +139,7 @@ p
 
 #start-button
 {
-    font-size: 35px;
+    font-size: 2vw;
     font-family: "VT323";
     padding: 0 5px 0 5px; 
     margin: 0 20px 0 20px;
@@ -147,7 +149,7 @@ p
 
 #restart-button
 {
-    font-size: 35px;
+    font-size: 2vw;
     font-family: "VT323";
     padding: 0 2px 0 2px; 
     margin: 0 20px 0 20px;
