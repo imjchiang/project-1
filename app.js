@@ -508,11 +508,13 @@ function createBunkers()
 function renderBunkers()
 {
     //for each bunker
+    liveBunkers = 0;
     manyBunkers.forEach(oneBunker =>
     {
         //if bunker is alive
         if (oneBunker.alive)
         {
+            liveBunkers++;
             //draw the bunker
             ctx.drawImage(bunkerImage, oneBunker.x, oneBunker.y, bunkerXSize, bunkerYSize);
             
@@ -528,6 +530,7 @@ function renderBunkers()
             ctx.drawImage(deadBunkerImage, deadBunker, oneBunker.y, bunkerXSize, bunkerYSize);
         }
     });
+    document.getElementById("bunkers-left").textContent = liveBunkers;
 }
 
 //create the gunners
@@ -1081,7 +1084,7 @@ function gameOver()
     if (!player.alive)
     {
         document.getElementById("health-bar").setAttribute("src", "pictures/health/no-health-bar.png");
-        
+
         ctx.font = "150px Arial";
         ctx.fillStyle = "red";
         ctx.textAlign = "center";
@@ -1161,7 +1164,9 @@ document.addEventListener("DOMContentLoaded", function()
     //difficulty = "medium";
     //checkGameConditions();
 
-    numBunkers = 3;
+    numBunkers = 5;
+    liveBunkers = numBunkers;
+
     numGunners = 90;
     //create bunkers
     createBunkers();

@@ -140,5 +140,22 @@ p
     color: orange;
 }
 
+#bunkers
+{
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 15px;
+    grid-area: 6 / 4 / 7 / 6;
+}
+
+#bunkers-left
+{
+    padding: 0 0 0 10px;
+    font-size: 30px;
+    grid-area: 6 / 4 / 7 / 6;
+}
+
 /* @media 
 width 1230 */
