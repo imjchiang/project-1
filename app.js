@@ -11,6 +11,10 @@ let ctxBackground;
 let game;
 let ctx;
 
+//tutorial canvas
+let tutorial;
+let ctxTutorial;
+
 //for player object creation
 let player;
 let balloonGround = 155;
@@ -102,12 +106,19 @@ let noBulletImage = document.createElement("img");
 noBulletImage.setAttribute("id", "bullet-img");
 //noBulletImage.setAttribute("src", "pictures/ammo/bullet.png");
 
+//for tutorial image
+let tutorialImage = document.createElement("img");
+tutorialImage.setAttribute("id", "tutorial-img");
+tutorialImage.setAttribute("src", "pictures/background/tutorial0.png");
+
+
 //store key press events
 let keys = [];
 
 //difficulty variables
 let difficulty = "";
 let winCondition;
+let runGame;
 
 
 
@@ -276,44 +287,44 @@ function Ammo(x, y, angle, fired, speed)
 //need to add button click listener
 function checkGameConditions()
 {
-    if (difficulty === "easy")
-    {
-        //create 3 bunkers
-        numbunkers = 3;
-        //create 15 gunners
-        numGunners = 15;
-        //don't change background speed
-    }
-    //if difficulty is medium
-    if (difficulty === "medium")
-    {
-        //create 5 bunkers
-        numbunkers = 5;
-        //create 30 gunners
-        numGunners = 30;
-        //change background speed to -10
-        scrollSpeed = -10;
-    }
-    //if difficulty is hard
-    if (difficulty === "hard")
-    {
-        //create 7 bunkers
-        numbunkers = 7;
-        //create 50 gunners
-        numGunners = 50;
-        //change background speed to -15
-        scrollSpeed = -15;
-    }
-    //if difficulty is death
-    if (difficulty === "death")
-    {
-        //create 10 bunkers
-        numbunkers = 10;
-        //create 90 gunners
-        numGunners = 90;
-        //change background speed to -25
-        scrollSpeed = -25;
-    }
+    // if (difficulty === "easy")
+    // {
+    //     //create 3 bunkers
+    //     numbunkers = 3;
+    //     //create 15 gunners
+    //     numGunners = 15;
+    //     //don't change background speed
+    // }
+    // //if difficulty is medium
+    // if (difficulty === "medium")
+    // {
+    //     //create 5 bunkers
+    //     numbunkers = 5;
+    //     //create 30 gunners
+    //     numGunners = 30;
+    //     //change background speed to -10
+    //     scrollSpeed = -10;
+    // }
+    // //if difficulty is hard
+    // if (difficulty === "hard")
+    // {
+    //     //create 7 bunkers
+    //     numbunkers = 7;
+    //     //create 50 gunners
+    //     numGunners = 50;
+    //     //change background speed to -15
+    //     scrollSpeed = -15;
+    // }
+    // //if difficulty is death
+    // if (difficulty === "death")
+    // {
+    //     //create 10 bunkers
+    //     numbunkers = 10;
+    //     //create 90 gunners
+    //     numGunners = 90;
+    //     //change background speed to -25
+    //     scrollSpeed = -25;
+    // }
 }
 
 //move the background and objects
@@ -1162,10 +1173,99 @@ document.addEventListener("DOMContentLoaded", function()
             bombFired();
         }
     });
+    document.getElementById("restart-button").addEventListener("click", function()
+    {
+        clearInterval(runGame);
+
+        ctxTutorial.drawImage(tutorialImage, 0, 0, WIDTH, HEIGHT);
+
+        //for player object creation
+        balloonGround = 155;
+        hitboxRadius = 34;
+        xAlignment = hitboxRadius + 0.9;
+        yAlignment = hitboxRadius + 1.4;
+
+        //for bunker object creation
+        manyBunkers = [];
+        bunkerRandomY = [];
+        bunkerRandomX = [];
+        bunkerXSize = 100;
+        bunkerYSize = 50;
+        bunkerRadius = 40;
+
+        //for gunner object creation
+        manyGunners = [];
+        gunnerRandomY = [];
+        gunnerRandomX = [];
+        gunnerXSize = 34;
+        gunnerYSize = 30;
+
+        //for gunner ammo object creation
+        numGunnerAmmo = 10;
+        gunnerAmmo = [];
+        bulletXSize = 10;
+        bulletYSize = 10;
+
+        //for player ammo object creation
+        balloonAmmo = [];
+        bombIndex = 0;
+        bombSize = 15;
+        bombRadius = 7;
+
+        //for background image scrolling
+        backgroundImage.setAttribute("src", "pictures/background/8bit-background.jpg");
+        backgroundXPos = 0;
+        scrollSpeed = -5;
+        tempScroll = scrollSpeed;
+
+
+        //for balloon image
+        balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon.png");
+        document.getElementById("health-bar").setAttribute("src", "pictures/health/full-health-bar.png");
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/full-bunker-bar.png");
+
+        //store key press events
+        keys = [];
+
+        //character refs
+        //create Player
+        player = new Balloon(150, 100, 70, 120);
+        //create bombs for player
+        numBalloonAmmo = 10;
+        createBombs();
+        bombsLeft = numBalloonAmmo;
+
+        numBunkers = 5;
+        liveBunkers = numBunkers;
+
+        numGunners = 90;
+        //create bunkers
+        createBunkers();
+        //create gunners
+        createGunners();
+
+        //create array of ammo for gunners
+        createBullets();
+
+    });
+    document.getElementById("start-button").addEventListener("click", function()
+    {
+        ctxTutorial.clearRect(0, 0, WIDTH, HEIGHT);
+        if (runGame === undefined || runGame === null)
+        {
+            runGame = setInterval(playGame, 45);
+        }
+        else
+        {
+            clearInterval(runGame);
+            runGame = setInterval(playGame, 45);
+        }
+    });
 
     //DOM REFERECES
     game = document.getElementById("game");
     gameBackground = document.getElementById("game-background");
+    tutorial = document.getElementById("tutorial");
 
     //BACKGROUND CANVAS CONFIGS
     gameBackground.setAttribute("width", WIDTH);
@@ -1176,6 +1276,13 @@ document.addEventListener("DOMContentLoaded", function()
     game.setAttribute("width", WIDTH);
     game.setAttribute("height", HEIGHT);
     ctx = game.getContext("2d");
+
+    //TUTORIAL CONFIGS
+    tutorial.setAttribute("width", WIDTH);
+    tutorial.setAttribute("height", HEIGHT);
+    ctxTutorial = tutorial.getContext("2d");
+    ctxTutorial.drawImage(tutorialImage, 0, 0, WIDTH, HEIGHT);
+
 
     //character refs
     //create Player
@@ -1207,7 +1314,7 @@ document.addEventListener("DOMContentLoaded", function()
     //document.addEventListener("keydown", player.move);
 
     //RUN GAME
-    let runGame = setInterval(playGame, 45);    //change number for better fps, need to account for speed of game though (45)
+    //runGame = setInterval(playGame, 45);    //change number for better fps, need to account for speed of game though (45)
 })
 
 
