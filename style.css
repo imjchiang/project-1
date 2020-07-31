@@ -41,8 +41,8 @@ body
 {
     grid-area: 2 / 2 / 6 / 6;
     position: relative;
-    min-width: 600px;
-    min-height: 350px;
+    min-width: 300px;
+    min-height: 175px;
 }
 
 #title
@@ -68,19 +68,20 @@ body
 
 #bomb
 {
+    font-size: 4vh;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-right: 15px;
-    grid-area: 6 / 6 / 7 / 7;
+    grid-area: 4 / 6 / 6 / 7;
 }
 
 #bombs-left
 {
-    font-size: 30px;
+    font-size: 4vh;
     padding: 0 0 0 10px;
-    grid-area: 6 / 6 / 7 / 7;
+    grid-area: 4 / 6 / 6 / 7;
 }
 
 #controls
@@ -118,6 +119,7 @@ canvas#tutorial
 
 h1
 {
+    font-size: 8vh;
     padding: 0;
     margin: 0;
 }
@@ -130,7 +132,7 @@ h4
 
 p
 {
-    padding-top: 10px;
+    padding-top: 1.25vh;
     font-size: 2.5vh;
 }
 
@@ -145,7 +147,6 @@ p
     font-size: 2vw;
     font-family: "VT323";
     padding: 0 5px 0 5px; 
-    margin: 0 20px 0 20px;
     background-color: white;
     color: rgb(131, 218, 131);
 }
@@ -155,7 +156,6 @@ p
     font-size: 1.75vw;
     font-family: "VT323";
     padding: 0 2px 0 2px; 
-    margin: 0 20px 0 20px;
     background-color: white;
     color: orange;
 }
@@ -183,7 +183,7 @@ p
     align-items: center;
     padding: 0;
     margin: 0;
-    grid-area: 4 / 6 / 6 / 7;
+    grid-area: 6 / 6 / 6 / 7;
 }
 
 #credits > p
