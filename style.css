@@ -79,7 +79,12 @@ body
 
 #controls
 {
-    grid-area: 2 / 1 / 5 / 2;
+    grid-area: 2 / 1 / 4 / 2;
+}
+
+#rules
+{
+    grid-area: 4 / 1 / 7 / 2;
 }
 
 canvas#game-background
@@ -102,7 +107,7 @@ h1
     margin: 0;
 }
 
-h3
+h4
 {
     margin-top: 0;
     margin-bottom: 15px;
@@ -150,7 +155,7 @@ p
     grid-area: 6 / 4 / 7 / 6;
 }
 
-#health-bar
+#bunker-bar
 {
     width: 10vw;
     padding-left: 10px;
