@@ -76,6 +76,7 @@ body
 #bombs-left
 {
     font-size: 30px;
+    padding: 0 0 0 10px;
     grid-area: 6 / 6 / 7 / 7;
 }
 
