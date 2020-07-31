@@ -119,6 +119,7 @@ let keys = [];
 let difficulty = "";
 let winCondition;
 let runGame;
+let missionComplete = true;
 
 
 
@@ -529,7 +530,10 @@ function renderBunkers()
             liveBunkers++;
             //draw the bunker
             ctx.drawImage(bunkerImage, oneBunker.x, oneBunker.y, bunkerXSize, bunkerYSize);
-            
+            if (oneBunker.x < -250)
+            {
+                missionComplete = false;
+            }
             //help determine hitbox for bunker
             //insert painted hitboxes here if needed
         }
@@ -727,7 +731,7 @@ function renderGunners()
     //for each bunker
     manyGunners.forEach(oneGunner =>
     {
-        if (winCondition)
+        if (winCondition || !missionComplete)
         {
             if (oneGunner.x >= -gunnerXSize && oneGunner.y >= 0 && oneGunner.x <= WIDTH * 2 && oneGunner.y <= HEIGHT)
             {
@@ -956,7 +960,7 @@ function renderBullets()
             let eachBullet = gunnerAmmo[i][j];
             if (eachBullet.x >= 0 || eachBullet.y >= 0)
             {
-                if (!player.alive || winCondition)
+                if (!player.alive || winCondition || !missionComplete)
                 {
                     if (eachBullet.x >=0 && eachBullet.y >= 0 && eachBullet.x <= WIDTH && eachBullet.y <= HEIGHT && eachBullet.countdown <= 0)
                     {
@@ -1138,6 +1142,18 @@ function gameOver()
         ctx.strokeTextAlign = "center"
         ctx.strokeText("YOU LOSE", WIDTH / 2, HEIGHT / 2);
     }
+    if (!missionComplete)
+    {
+        ctx.font = "150px Arial";
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.fillText("MISSION FAILED", WIDTH / 2, HEIGHT / 2);
+
+        ctx.strokeStyle = "black"
+        ctx.lineWidth = 5;
+        ctx.strokeTextAlign = "center"
+        ctx.strokeText("MISSION FAILED", WIDTH / 2, HEIGHT / 2);
+    }
     let totalBunkersDead = 0;
     manyBunkers.forEach(oneBunker =>
     {
@@ -1216,7 +1232,8 @@ document.addEventListener("DOMContentLoaded", function()
         scrollSpeed = -5;
         tempScroll = scrollSpeed;
         winCondition = undefined;
-
+        missionComplete = true;
+        
         //reset for balloon image
         balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon.png");
         document.getElementById("health-bar").setAttribute("src", "pictures/health/full-health-bar.png");

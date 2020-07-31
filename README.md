@@ -534,46 +534,70 @@ function gameOver()
 
 ```javascript
 document.getElementById("restart-button").addEventListener("click", function()
-{
-    clearInterval(runGame);
+    {
+        clearInterval(runGame);
 
-    ctxTutorial.drawImage(tutorialImage, 0, 0, WIDTH, HEIGHT);
-    ctxTutorial.font = "150px Arial";
-    ctxTutorial.fillStyle = "yellow";
-    ctxTutorial.textAlign = "center";
-    ctxTutorial.fillText("PRESS START", WIDTH / 2, HEIGHT / 2);
+        ctxTutorial.drawImage(tutorialImage, 0, 0, WIDTH, HEIGHT);
+        ctxTutorial.font = "150px Arial";
+        ctxTutorial.fillStyle = "yellow";
+        ctxTutorial.textAlign = "center";
+        ctxTutorial.fillText("PRESS START", WIDTH / 2, HEIGHT / 2);
 
-    //for player object creation
-    balloonGround = 155;
-    hitboxRadius = 34;
-    xAlignment = hitboxRadius + 0.9;
-    yAlignment = hitboxRadius + 1.4;
+        //reset for bunker object creation
+        manyBunkers = [];
+        bunkerRandomY = [];
+        bunkerRandomX = [];
 
-    //for bunker object creation
-    manyBunkers = [];
-    bunkerRandomY = [];
-    bunkerRandomX = [];
+        //reset for gunner object creation
+        manyGunners = [];
+        gunnerRandomY = [];
+        gunnerRandomX = [];
 
-    ...
+        //reset for gunner ammo object creation
+        numGunnerAmmo = 10;
+        bulletXSize = 10;
+        bulletYSize = 10;
+        gunnerAmmo = [];
 
-    player = new Balloon(150, 100, 70, 120);
-    //create bombs for player
-    numBalloonAmmo = 10;
-    createBombs();
-    bombsLeft = numBalloonAmmo;
+        //reset for player ammo object creation
+        balloonAmmo = [];
+        bombIndex = 0;
 
-    numBunkers = 5;
-    liveBunkers = numBunkers;
+        //reset for background image scrolling
+        backgroundXPos = 0;
+        scrollSpeed = -5;
+        tempScroll = scrollSpeed;
+        winCondition = undefined;
+        missionComplete = true;
+        
+        //reset for balloon image
+        balloonImage.setAttribute("src", "pictures/balloon/8bit-balloon.png");
+        document.getElementById("health-bar").setAttribute("src", "pictures/health/full-health-bar.png");
+        document.getElementById("bunker-bar").setAttribute("src", "pictures/health/full-bunker-bar.png");
 
-    numGunners = 90;
-    //create bunkers
-    createBunkers();
-    //create gunners
-    createGunners();
+        //reset key press event array
+        keys = [];
 
-    //create array of ammo for gunners
-    createBullets();
-});
+        //create new player
+        player = new Balloon(150, 100, 70, 120);
+        //create new bombs for player
+        numBalloonAmmo = 10;
+        createBombs();
+        bombsLeft = numBalloonAmmo;
+
+        numBunkers = 5;
+        liveBunkers = numBunkers;
+
+        numGunners = 90;
+        //create new bunkers
+        createBunkers();
+        //create new gunners
+        createGunners();
+
+        //create new array of ammo for gunners
+        createBullets();
+
+    });
 ```
 - This is the restart function
 - It stops the game that being run, if there is one at all

@@ -171,5 +171,27 @@ p
     padding-left: 10px;
 }
 
+#credits
+{
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    grid-area: 4 / 6 / 6 / 7;
+}
+
+#credits > p
+{
+    padding: 0;
+    padding-left: 7px;
+    margin: 0;
+}
+
+#name
+{
+    padding: 0;
+    padding-left: 15px;
+    margin: 0;
+}
 /* @media 
 width 1230 */
